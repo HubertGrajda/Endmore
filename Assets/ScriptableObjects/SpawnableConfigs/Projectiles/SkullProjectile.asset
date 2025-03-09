@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017c307e4bc14d6fbe7970f1905baf44, type: 3}
   m_Name: SkullProjectile
   m_EditorClassIdentifier: 
-  <Prefab>k__BackingField: {fileID: 7720016773412487937, guid: de4d6f05cf39a3c4ab609df9cb0a516b, type: 3}
   <PlacementConditions>k__BackingField: []
   <GameStateConditions>k__BackingField: []
+  <Prefab>k__BackingField: {fileID: 7720016773412487937, guid: de4d6f05cf39a3c4ab609df9cb0a516b, type: 3}
   <Sprite>k__BackingField: {fileID: -1752388792, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
   <Color>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
   <ScaleFactor>k__BackingField: 0.5
   <Speed>k__BackingField: 5
+  <Damage>k__BackingField: 1
   <KnockBackStrength>k__BackingField: 10
   <KnockBackDuration>k__BackingField: 0.3

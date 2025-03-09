@@ -29,7 +29,11 @@ namespace Scripts.Gameplay
         private void Awake()
         {
             _positionsWithSpawnAllowed = GetPositionsWithSpawnAllowed();
-            _playerTransform = FindAnyObjectByType<PlayerLocomotion>().transform;
+        }
+
+        private void Start()
+        {
+            _playerTransform = PlayerController.Instance.transform;
         }
 
         private HashSet<Vector3Int> GetPositionsWithSpawnAllowed()

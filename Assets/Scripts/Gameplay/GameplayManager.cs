@@ -1,7 +1,6 @@
 using System;
-using Newtonsoft.Json;
+using Scripts.Player;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Scripts.Gameplay
 {
@@ -12,30 +11,57 @@ namespace Scripts.Gameplay
         [SerializeField] private LevelGenerator levelGenerator;
 
         [SerializeField, Range(0f, 1f)] private float pointsPercentageToPassTheLevel;
+        [SerializeField] private float restartDelayAfterDeath = 1f;
         
         public event Action<int> OnLevelStarted;
         public event Action<int> OnCollisionsNumberChanged;
+        
+        public int CollisionsNumber { get; private set; }
+        public int CurrentLevel { get; private set; }
         
         private ScoreManager _scoreManager;
         private InputManager _inputManager;
         private GameManager _gameManager;
 
-        public int CollisionsNumber { get; private set; }
-        public int CurrentLevel { get; private set; }
-
         private const int INITIAL_LEVEL_NUMBER = 1;
+        
+        private PlayerController _playerController;
+        private PlayerHitsHandler _playerHitsHandler;
         
         private void Start()
         {
             _scoreManager = ScoreManager.Instance;
             _gameManager = GameManager.Instance;
             _inputManager = InputManager.Instance;
+            _playerController = PlayerController.Instance;
+            
+            _playerHitsHandler = _playerController.PlayerHitsHandler;
+            
+            _inputManager.EnablePlayerActions();
             
             AddListeners();
-            StartLevel(INITIAL_LEVEL_NUMBER);
-            _inputManager.EnablePlayerActions();
+            StartGameplay();
         }
 
+        private void StartGameplay()
+        {
+            SetCollisionsNumber(0);
+            StartLevel(INITIAL_LEVEL_NUMBER);
+            GameplayTimer.StartTimer();
+        }
+        
+        private void StartLevel(int levelNumber)
+        {
+            if (!levelGenerator) return;
+            
+            CurrentLevel = levelNumber;
+            _scoreManager.ResetScore();
+            levelGenerator.GenerateLevel(CurrentLevel);
+            _scoreManager.SetScoreTarget(pointsPercentageToPassTheLevel);
+            
+            OnLevelStarted?.Invoke(CurrentLevel);
+        }
+        
         private void OnDestroy()
         {
             _inputManager.DisablePlayerActions();
@@ -45,24 +71,36 @@ namespace Scripts.Gameplay
         private void AddListeners()
         {
             _scoreManager.OnScoreTargetAchieved += OnScoreTargetAchieved;
+            _playerHitsHandler.OnDeath += OnPlayerDeath;
         }
 
         private void RemoveListeners()
         {
             _scoreManager.OnScoreTargetAchieved -= OnScoreTargetAchieved;
+            _playerHitsHandler.OnDeath -= OnPlayerDeath;
+        }
+        
+        private void OnPlayerDeath()
+        {
+            EndGameplay();
+            Invoke(nameof(RestartGameplay), restartDelayAfterDeath);
+        }
+        
+        private void EndGameplay()
+        {
+            SaveAttempt();
+            GameplayTimer.StopTimer();
+        }
+
+        private void RestartGameplay()
+        {
+            ScenesManager.Instance.RestartLevel();
         }
         
         private void OnScoreTargetAchieved(int obj)
         {
-            EndCurrentLevel();
-            StartLevel(CurrentLevel + 1);
-        }
-        
-        private void EndCurrentLevel()
-        {
-            SaveAttempt();
-            GameplayTimer.StopTimer();
             levelGenerator.ClearLevel();
+            StartLevel(CurrentLevel + 1);
         }
 
         private void SaveAttempt()
@@ -77,69 +115,12 @@ namespace Scripts.Gameplay
             _gameManager.AddAttempt(CurrentLevel, attemptData);
         }
 
-        private void StartLevel(int levelNumber)
-        {
-            if (!levelGenerator) return;
-            
-            ResetGameplay();
-            CurrentLevel = levelNumber;
-            levelGenerator.GenerateLevel(CurrentLevel);
-            _scoreManager.SetScoreTarget(pointsPercentageToPassTheLevel);
-            GameplayTimer.StartTimer();
-            
-            OnLevelStarted?.Invoke(CurrentLevel);
-        }
-
-        private void ResetGameplay()
-        {
-            SetCollisionsNumber(0);
-            _scoreManager.ResetScore();
-        }
-        
         public void IncrementCollisionsNumber() => SetCollisionsNumber(CollisionsNumber + 1);
 
         private void SetCollisionsNumber(int value)
         {
             CollisionsNumber = value;
             OnCollisionsNumberChanged?.Invoke(CollisionsNumber);
-        }
-    }
-
-    [Serializable]
-    public class LevelAttemptData : IComparable<LevelAttemptData>
-    {
-        [JsonProperty] private int _levelNumber;
-        [JsonProperty] private int _attemptNumber;
-        [JsonProperty] private int _collisions;
-        [JsonProperty] private double _secondsOfGameplay;
-        
-        public LevelAttemptData(int levelNumber, int attemptNumber, int collisions, TimeSpan time)
-        {
-            _levelNumber = levelNumber;
-            _attemptNumber = attemptNumber;
-            _collisions = collisions;
-            _secondsOfGameplay = time.TotalSeconds;
-        }
-        
-        public void GetData(out int levelNumber, out int attemptNumber, out int collisions, out TimeSpan time)
-        {
-            levelNumber = _levelNumber;
-            attemptNumber = _attemptNumber;
-            collisions = _collisions;
-            time = GetTime();
-        }
-        
-        private TimeSpan GetTime() => TimeSpan.FromSeconds(_secondsOfGameplay);
-        
-        public int CompareTo(LevelAttemptData otherAttempt)
-        {
-            var otherAttemptTime = otherAttempt.GetTime();
-            var thisAttemptTime = GetTime();
-            
-            if (otherAttemptTime < thisAttemptTime) return 1;
-            if (otherAttemptTime > thisAttemptTime) return -1;
-            
-            return 0;
         }
     }
 }

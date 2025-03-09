@@ -56,5 +56,10 @@ namespace Scripts
             _isBusy = false;
             OnSceneChanged?.Invoke();
         }
+
+        public void RestartLevel()
+        {
+            LaunchSceneByName(SceneManager.GetActiveScene().name);
+        }
     }
 }

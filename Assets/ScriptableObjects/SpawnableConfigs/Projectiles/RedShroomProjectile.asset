@@ -19,5 +19,6 @@ MonoBehaviour:
   <Color>k__BackingField: {r: 0.6320754, g: 0.32370633, b: 0.17590779, a: 1}
   <ScaleFactor>k__BackingField: 0.5
   <Speed>k__BackingField: 10
+  <Damage>k__BackingField: 1
   <KnockBackStrength>k__BackingField: 10
   <KnockBackDuration>k__BackingField: 0.3

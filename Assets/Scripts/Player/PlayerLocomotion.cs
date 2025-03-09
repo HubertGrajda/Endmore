@@ -22,15 +22,29 @@ namespace Scripts.Player
         
         public event Action<Vector2> OnMovementDirectionChanged;
         
+        private PlayerHitsHandler _playerHitsHandler;
+        
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
+            
         }
 
         private void Start()
         {
             _movementInputAction = InputManager.Instance.PlayerInputs.Move;
+            
+            if (TryGetComponent(out _playerHitsHandler))
+            {
+                _playerHitsHandler.OnDeath += OnDeath;
+            }
+        }
+
+        private void OnDeath()
+        {
+            _playerHitsHandler.OnDeath -= OnDeath;
+            BlockInputMovement();
         }
 
         private void FixedUpdate()
@@ -101,7 +115,12 @@ namespace Scripts.Player
         }
 
         private void BlockInputMovement() => _movementInputAction.Disable();
-        
-        private void UnblockInputMovement() => _movementInputAction.Enable();
+
+        private void UnblockInputMovement()
+        {
+            if (_playerHitsHandler && _playerHitsHandler.IsDead) return;
+            
+            _movementInputAction.Enable();
+        }
     }
 }

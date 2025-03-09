@@ -67,7 +67,7 @@ namespace Scripts.Gameplay
         {
             if (!interactor.TryGetComponent(out IDamagable damagable)) return;
             
-            damagable.TakeDamage();
+            damagable.TakeDamage(_config.Damage);
         }
     }
 }

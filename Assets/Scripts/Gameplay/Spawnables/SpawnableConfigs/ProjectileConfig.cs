@@ -6,6 +6,7 @@ namespace Scripts.Gameplay
     public class ProjectileConfig : SpawnableConfig
     {
         [field: SerializeField] public float Speed { get; private set; }
+        [field: SerializeField] public int Damage { get; private set; }
         [field: SerializeField] public float KnockBackStrength { get; private set; }
         [field: SerializeField] public float KnockBackDuration { get; private set; }
     }

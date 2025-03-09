@@ -3,18 +3,22 @@
 namespace Scripts.Player
 {
     [RequireComponent(typeof(PlayerLocomotion))]
+    [RequireComponent(typeof(PlayerHitsHandler))]
     public class PlayerAnimationsController : MonoBehaviour
     {
         [SerializeField] private Animator animator;
         
         private PlayerLocomotion _playerLocomotion;
+        private PlayerHitsHandler _playerHitsHandler;
         
         private static readonly int HorizontalMovementAnimation = Animator.StringToHash("HorizontalMovement");
         private static readonly int VerticalMovementAnimation = Animator.StringToHash("VerticalMovement");
+        private static readonly int DeathAnimation = Animator.StringToHash("Death");
 
         private void Awake()
         {
             _playerLocomotion = GetComponent<PlayerLocomotion>();
+            _playerHitsHandler = GetComponent<PlayerHitsHandler>();
         }
 
         private void OnEnable() => AddListeners();
@@ -25,18 +29,20 @@ namespace Scripts.Player
         {
             if (!animator) return;
 
-            if (_playerLocomotion)
-            {
-                _playerLocomotion.OnMovementDirectionChanged += OnMovementDirectionChanged;
-            }
+            _playerLocomotion.OnMovementDirectionChanged += OnMovementDirectionChanged;
+            _playerHitsHandler.OnDeath += OnDeath;
         }
+
 
         private void RemoveListeners()
         {
-            if (_playerLocomotion)
-            {
-                _playerLocomotion.OnMovementDirectionChanged -= OnMovementDirectionChanged;
-            }
+            _playerLocomotion.OnMovementDirectionChanged -= OnMovementDirectionChanged;
+            _playerHitsHandler.OnDeath -= OnDeath;
+        }
+        
+        private void OnDeath()
+        {
+            animator.SetTrigger(DeathAnimation);
         }
         
         private void OnMovementDirectionChanged(Vector2 direction)
