@@ -57,12 +57,16 @@ namespace Scripts.Gameplay
         
         private void EnableInteraction()
         {
+            if (_interactionInput == null) return;
+            
             _interactionInput.Enable();
             _interactionInput.started += OnInputStarted;
         }
 
         private void DisableInteraction()
         {
+            if (_interactionInput == null) return;
+            
             _interactionInput.started -= OnInputStarted;
             _interactionInput.Disable();
         }

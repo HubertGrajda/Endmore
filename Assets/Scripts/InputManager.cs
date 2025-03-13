@@ -47,18 +47,12 @@
         
         private void OnSceneChange()
         {
-            EnableGameplayUIActions();
+            _inputs?.Disable();
         }
         
         private void OnSceneChanged()
         {
-            DisableGameplayUIActions();
+           _inputs?.Enable();
         }
-
-        public void EnablePlayerActions() => PlayerInputs.Enable();
-        public void DisablePlayerActions() => PlayerInputs.Disable();
-        
-        private void EnableGameplayUIActions() => GameplayUIInputs.Enable();
-        private void DisableGameplayUIActions() => GameplayUIInputs.Disable();
     }
 }

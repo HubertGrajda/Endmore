@@ -9,7 +9,7 @@ namespace Scripts.UI
         [SerializeField] private HealthPointVisualizer healthPointPrefab;
         [SerializeField] private Transform healthPointsContainer;
 
-        private PlayerHitsHandler _playerHitsHandler;
+        private PlayerHealthSystem _playerHealthSystem;
         
         private readonly List<HealthPointVisualizer> _healthPoints = new();
 
@@ -26,11 +26,11 @@ namespace Scripts.UI
 
         private void AddListeners()
         {
-            _playerHitsHandler.OnHealthChanged += OnHealthChanged;
+            _playerHealthSystem.OnHealthChanged += OnHealthChanged;
         }
         private void RemoveListeners()
         {
-            _playerHitsHandler.OnHealthChanged -= OnHealthChanged;
+            _playerHealthSystem.OnHealthChanged -= OnHealthChanged;
         }
 
         private void OnHealthChanged(int health)
@@ -48,9 +48,9 @@ namespace Scripts.UI
 
         private void Initialize()
         {
-            _playerHitsHandler = PlayerController.Instance.PlayerHitsHandler;
+            _playerHealthSystem = PlayerController.Instance.PlayerHealthSystem;
             
-            if (!_playerHitsHandler) return;
+            if (!_playerHealthSystem) return;
             
             InitializeHealthPoints();
         }
@@ -60,12 +60,14 @@ namespace Scripts.UI
             if (!healthPointPrefab) return;
             if (!healthPointsContainer) return;
             
-            for (var i = 0; i < _playerHitsHandler.MaxHealth; i++)
+            for (var i = 0; i < _playerHealthSystem.MaxHealth; i++)
             {
                 var healthPointInstance = Instantiate(healthPointPrefab, healthPointsContainer);
                 
                 _healthPoints.Add(healthPointInstance);
             }
+            
+            OnHealthChanged(_playerHealthSystem.CurrentHealth);
         }
     }
 }

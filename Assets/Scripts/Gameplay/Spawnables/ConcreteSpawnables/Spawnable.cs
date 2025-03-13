@@ -4,7 +4,8 @@ namespace Scripts.Gameplay
 {
     public class Spawnable : MonoBehaviour
     {
-        [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] protected SpriteRenderer spriteRenderer;
+        
         public SpawnableConfig Config { get; private set; }
 
         public virtual void Initialize(SpawnableConfig config)

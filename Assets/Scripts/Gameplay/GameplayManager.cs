@@ -9,8 +9,7 @@ namespace Scripts.Gameplay
         [field: SerializeField] public Timer GameplayTimer { get; private set; }
         
         [SerializeField] private LevelGenerator levelGenerator;
-
-        [SerializeField, Range(0f, 1f)] private float pointsPercentageToPassTheLevel;
+        
         [SerializeField] private float restartDelayAfterDeath = 1f;
         
         public event Action<int> OnLevelStarted;
@@ -20,24 +19,21 @@ namespace Scripts.Gameplay
         public int CurrentLevel { get; private set; }
         
         private ScoreManager _scoreManager;
-        private InputManager _inputManager;
         private GameManager _gameManager;
-
-        private const int INITIAL_LEVEL_NUMBER = 1;
         
         private PlayerController _playerController;
-        private PlayerHitsHandler _playerHitsHandler;
+        private PlayerHealthSystem _playerHealthSystem;
+
+        private bool _gameplayEnded;
+        
+        private const int INITIAL_LEVEL_NUMBER = 1;
         
         private void Start()
         {
             _scoreManager = ScoreManager.Instance;
             _gameManager = GameManager.Instance;
-            _inputManager = InputManager.Instance;
             _playerController = PlayerController.Instance;
-            
-            _playerHitsHandler = _playerController.PlayerHitsHandler;
-            
-            _inputManager.EnablePlayerActions();
+            _playerHealthSystem = _playerController.PlayerHealthSystem;
             
             AddListeners();
             StartGameplay();
@@ -45,9 +41,9 @@ namespace Scripts.Gameplay
 
         private void StartGameplay()
         {
-            SetCollisionsNumber(0);
             StartLevel(INITIAL_LEVEL_NUMBER);
             GameplayTimer.StartTimer();
+            _gameplayEnded = false;
         }
         
         private void StartLevel(int levelNumber)
@@ -55,29 +51,31 @@ namespace Scripts.Gameplay
             if (!levelGenerator) return;
             
             CurrentLevel = levelNumber;
-            _scoreManager.ResetScore();
             levelGenerator.GenerateLevel(CurrentLevel);
-            _scoreManager.SetScoreTarget(pointsPercentageToPassTheLevel);
             
             OnLevelStarted?.Invoke(CurrentLevel);
         }
         
         private void OnDestroy()
         {
-            _inputManager.DisablePlayerActions();
+            if (!_gameplayEnded)
+            {
+                EndGameplay();
+            }
+            
             RemoveListeners();
         }
         
         private void AddListeners()
         {
             _scoreManager.OnScoreTargetAchieved += OnScoreTargetAchieved;
-            _playerHitsHandler.OnDeath += OnPlayerDeath;
+            _playerHealthSystem.OnDeath += OnPlayerDeath;
         }
 
         private void RemoveListeners()
         {
             _scoreManager.OnScoreTargetAchieved -= OnScoreTargetAchieved;
-            _playerHitsHandler.OnDeath -= OnPlayerDeath;
+            _playerHealthSystem.OnDeath -= OnPlayerDeath;
         }
         
         private void OnPlayerDeath()
@@ -89,18 +87,20 @@ namespace Scripts.Gameplay
         private void EndGameplay()
         {
             SaveAttempt();
+            ClearGameplay();
             GameplayTimer.StopTimer();
-        }
-
-        private void RestartGameplay()
-        {
-            ScenesManager.Instance.RestartLevel();
+            _gameplayEnded = true;
         }
         
-        private void OnScoreTargetAchieved(int obj)
+        private void ClearGameplay()
         {
-            levelGenerator.ClearLevel();
-            StartLevel(CurrentLevel + 1);
+            ClearLevel();
+            SetCollisionsNumber(0);
+        }
+        
+        private void RestartGameplay()
+        {
+            ScenesManager.Instance.ReloadActiveScene();
         }
 
         private void SaveAttempt()
@@ -113,6 +113,18 @@ namespace Scripts.Gameplay
                 GameplayTimer.ElapsedTime);
             
             _gameManager.AddAttempt(CurrentLevel, attemptData);
+        }
+        
+        private void OnScoreTargetAchieved(int obj)
+        {
+            ClearLevel();
+            StartLevel(CurrentLevel + 1);
+        }
+
+        private void ClearLevel()
+        {
+            _scoreManager.ResetScore();
+            levelGenerator.ClearLevel();
         }
 
         public void IncrementCollisionsNumber() => SetCollisionsNumber(CollisionsNumber + 1);

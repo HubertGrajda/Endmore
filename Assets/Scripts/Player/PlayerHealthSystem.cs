@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace Scripts.Player
 {
-    public class PlayerHitsHandler : MonoBehaviour, IDamagable
+    public class PlayerHealthSystem : MonoBehaviour, IDamagable, IHealable
     {
         [field: SerializeField] public int MaxHealth { get; private set; }
         
@@ -23,14 +23,12 @@ namespace Scripts.Player
         public int CurrentHealth { get; private set; }
         public bool IsDead => CurrentHealth <= 0;
         
-        
         private void Start()
         {
             _gameplayManager = GameplayManager.Instance;
             _scoreManager = ScoreManager.Instance;
-            
-            CurrentHealth = MaxHealth;
             _scoreManager.OnScoreTargetAchieved += OnScoreTargetAchieved;
+            SetHealth(MaxHealth);
         }
 
         private void OnDestroy()
@@ -56,6 +54,11 @@ namespace Scripts.Player
             {
                 Death();
             }
+        }
+
+        public void Heal(int healAmount)
+        {
+            SetHealth(CurrentHealth + healAmount);
         }
         
         private void SetHealth(int health)

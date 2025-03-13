@@ -34,6 +34,9 @@ namespace Scripts.Gameplay
             var otherAttemptTime = otherAttempt.GetTime();
             var thisAttemptTime = GetTime();
             
+            if (_levelNumber < otherAttempt._levelNumber) return 1;
+            if (_levelNumber > otherAttempt._levelNumber) return -1;
+            
             if (otherAttemptTime < thisAttemptTime) return 1;
             if (otherAttemptTime > thisAttemptTime) return -1;
             

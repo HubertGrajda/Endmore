@@ -18,7 +18,7 @@ namespace Scripts
         public event Action OnSceneChanged;
 
         private bool _isBusy;
-        
+
         public void LaunchSceneByName(string sceneName)
         {
             if (_isBusy) return;
@@ -57,9 +57,6 @@ namespace Scripts
             OnSceneChanged?.Invoke();
         }
 
-        public void RestartLevel()
-        {
-            LaunchSceneByName(SceneManager.GetActiveScene().name);
-        }
+        public void ReloadActiveScene() => LaunchSceneByName(SceneManager.GetActiveScene().name);
     }
 }

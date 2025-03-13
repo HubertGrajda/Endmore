@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29b2a5fbfda84161baabf9bf9d9cc635, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointsPercentageToPassTheLevel: 0.75

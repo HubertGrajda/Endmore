@@ -7,8 +7,8 @@ namespace Scripts.Player
         private PlayerLocomotion _playerLocomotion;
         public PlayerLocomotion PlayerLocomotion => _playerLocomotion;
         
-        private PlayerHitsHandler _playerHitsHandler;
-        public PlayerHitsHandler PlayerHitsHandler => _playerHitsHandler;
+        private PlayerHealthSystem _playerHealthSystem;
+        public PlayerHealthSystem PlayerHealthSystem => _playerHealthSystem;
 
         protected override void Awake()
         {
@@ -23,9 +23,9 @@ namespace Scripts.Player
                 Debug.LogError($"{name}: Missing component: {nameof(PlayerLocomotion)}");
             }
             
-            if (!TryGetComponent(out _playerHitsHandler))
+            if (!TryGetComponent(out _playerHealthSystem))
             {
-                Debug.LogError($"{name}: Missing component: {nameof(PlayerHitsHandler)}");
+                Debug.LogError($"{name}: Missing component: {nameof(PlayerHealthSystem)}");
             }
         }
     }
