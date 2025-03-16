@@ -12,6 +12,8 @@ namespace Scripts.Gameplay
         private ChestConfig _chestConfig;
         private bool _isOpened;
         
+        public bool CanInteract => !_isOpened;
+
         public override void Initialize(SpawnableConfig config)
         {
             base.Initialize(config);
@@ -47,6 +49,7 @@ namespace Scripts.Gameplay
             }
             
             spriteRenderer.sprite = _chestConfig.ChestOpenedSprite;
+            onChestOpened?.Invoke();
             _isOpened = true;
         }
     }

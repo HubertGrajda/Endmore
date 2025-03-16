@@ -5,7 +5,8 @@ namespace Scripts.CameraManagement
 {
     public class CameraManager : Singleton<CameraManager>
     {
-        private Camera _camera;
+        public Camera Camera { get; private set; }
+
         private ScenesManager _scenesManager;
         private Coroutine _movementCoroutine;
 
@@ -22,11 +23,11 @@ namespace Scripts.CameraManagement
         private void Start()
         {
             _scenesManager = ScenesManager.Instance;
-            _camera = Camera.main;
+            Camera = Camera.main;
             
-            if (!_camera) return;
+            if (!Camera) return;
             
-            _orthographicSize = _camera.orthographicSize;
+            _orthographicSize = Camera.orthographicSize;
             AddListeners();
         }
 
@@ -43,7 +44,7 @@ namespace Scripts.CameraManagement
             var cameraSizeMultiplier =
                 NATIVE_ASPECT_RATIO / Mathf.Clamp(currentAspect, MIN_ASPECT_RATIO, NATIVE_ASPECT_RATIO);
             
-            _camera.orthographicSize = _orthographicSize * cameraSizeMultiplier;
+            Camera.orthographicSize = _orthographicSize * cameraSizeMultiplier;
             _currentWidth = Screen.width;
             _currentHeight = Screen.height;
         }
@@ -64,11 +65,11 @@ namespace Scripts.CameraManagement
         
         private void OnSceneChanged()
         {
-            _camera = Camera.main;
+            Camera = Camera.main;
 
-            if (!_camera) return;
+            if (!Camera) return;
             
-            _orthographicSize = _camera.orthographicSize;
+            _orthographicSize = Camera.orthographicSize;
             AdjustCameraSize();
         }
 
@@ -84,22 +85,22 @@ namespace Scripts.CameraManagement
     
         private IEnumerator CameraMovementCoroutine(Vector3 targetPosition, float duration)
         {
-            if (!_camera) yield break;
+            if (!Camera) yield break;
             
             var timer = 0f;
-            var startPosition = _camera.transform.position;
+            var startPosition = Camera.transform.position;
             targetPosition.z = startPosition.z;
             
             while (timer <= duration)
             {
                 var position = Vector3.Lerp(startPosition, targetPosition, timer / duration);
-                _camera.transform.position = position;
+                Camera.transform.position = position;
                 
                 timer += Time.deltaTime;
                 yield return null;
             }
 
-            _camera.transform.position = targetPosition;
+            Camera.transform.position = targetPosition;
         }
 
         private void OnDestroy()

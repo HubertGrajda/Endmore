@@ -27,21 +27,32 @@ namespace Scripts.Gameplay
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            if (Interactable is not { CanInteract: true }) return;
             if (!other.CompareTag(PLAYER_TAG)) return;
             
             _triggerObject = other.gameObject;
-            
-            EnableInteraction();
-            ToggleTextAnimation(true);
-            onZoneEntered?.Invoke();
+            ActivateZone();
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
+            if (Interactable is not { CanInteract: true }) return;
             if (other.gameObject != _triggerObject) return;
             
             _triggerObject = null;
             
+           DeactivateZone();
+        }
+
+        private void ActivateZone()
+        {
+            EnableInteraction();
+            ToggleTextAnimation(true);
+            onZoneEntered?.Invoke();
+        }
+        
+        private void DeactivateZone()
+        {
             DisableInteraction();
             ToggleTextAnimation(false);
             onZoneLeft?.Invoke();
@@ -78,9 +89,13 @@ namespace Scripts.Gameplay
 
         private void OnInputStarted(InputAction.CallbackContext obj)
         {
-            if (Interactable == null) return;
+            if (Interactable is not { CanInteract: true }) return;
             
             Interactable.Interact(_triggerObject);
+
+            if (Interactable.CanInteract) return;
+            
+            DeactivateZone();
         }
     }
 }

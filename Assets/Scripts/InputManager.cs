@@ -27,6 +27,7 @@
         private void OnDestroy()
         {
             RemoveListeners();
+            _inputs.Dispose();
         }
 
         private void OnEnable() => _inputs?.Enable();
