@@ -8,27 +8,27 @@ namespace Scripts
 {
     public class GameManager : Singleton<GameManager>, ISaveable<GameData>
     {
-        public Dictionary<int, List<LevelAttemptData>> LevelToAttemptsData { get; private set; } = new();
+        public List<LevelAttemptData> LevelToAttemptsData { get; private set; } = new();
+        public string PlayerName { get; private set; }
 
-        public int GetAttemptNumber(int levelNumber) =>
-            LevelToAttemptsData.TryGetValue(levelNumber, out var attemptsData) 
-                ? attemptsData.Count 
-                : 0;
-        
-        public void AddAttempt(int levelNumber, LevelAttemptData attemptData)
+        public void ChangePlayerName(string newName)
         {
-            if (LevelToAttemptsData.TryAdd(levelNumber, new List<LevelAttemptData>{attemptData})) return;
-                
-            LevelToAttemptsData[levelNumber].Add(attemptData);
+            PlayerName = newName;
+        }
+        
+        public void AddAttempt(LevelAttemptData attemptData)
+        {
+            LevelToAttemptsData.Add(attemptData);
         }
 
-        public SaveData Save() => new GameData(LevelToAttemptsData);
+        public SaveData Save() => new GameData(LevelToAttemptsData, PlayerName);
 
         public void Load(GameData data)
         {
-            if (!data.TryGetData(out var levelToAttemptsData)) return;
+            if (!data.TryGetData(out var levelToAttemptsData, out var playerName)) return;
             
             LevelToAttemptsData = levelToAttemptsData;
+            PlayerName = playerName;
         }
 
         public void PauseGame()
@@ -44,16 +44,20 @@ namespace Scripts
     
     public class GameData : SaveData
     {
-        [JsonProperty] private Dictionary<int, List<LevelAttemptData>> _levelToAttemptsData;
+        [JsonProperty] private List<LevelAttemptData> _levelToAttemptsData;
+        [JsonProperty] private string _playerName;
 
-        public GameData(Dictionary<int, List<LevelAttemptData>> levelToAttemptsData)
+        public GameData(List<LevelAttemptData> levelToAttemptsData, string playerName)
         {
             _levelToAttemptsData = levelToAttemptsData;
+            _playerName = playerName;
         }
 
-        public bool TryGetData(out Dictionary<int, List<LevelAttemptData>> levelToAttemptsData)
+        public bool TryGetData(out List<LevelAttemptData> levelToAttemptsData, out string playerName)
         {
             levelToAttemptsData = _levelToAttemptsData;
+            playerName = _playerName;
+            
             return levelToAttemptsData != null;
         }
     }

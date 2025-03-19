@@ -7,22 +7,22 @@ namespace Scripts.Gameplay
     public class LevelAttemptData : IComparable<LevelAttemptData>
     {
         [JsonProperty] private int _levelNumber;
-        [JsonProperty] private int _attemptNumber;
+        [JsonProperty] private string _playerName;
         [JsonProperty] private int _collisions;
         [JsonProperty] private double _secondsOfGameplay;
         
-        public LevelAttemptData(int levelNumber, int attemptNumber, int collisions, TimeSpan time)
+        public LevelAttemptData(int levelNumber, string playerName, int collisions, TimeSpan time)
         {
             _levelNumber = levelNumber;
-            _attemptNumber = attemptNumber;
+            _playerName = playerName;
             _collisions = collisions;
             _secondsOfGameplay = time.TotalSeconds;
         }
         
-        public void GetData(out int levelNumber, out int attemptNumber, out int collisions, out TimeSpan time)
+        public void GetData(out int levelNumber, out string playerName, out int collisions, out TimeSpan time)
         {
             levelNumber = _levelNumber;
-            attemptNumber = _attemptNumber;
+            playerName = _playerName;
             collisions = _collisions;
             time = GetTime();
         }

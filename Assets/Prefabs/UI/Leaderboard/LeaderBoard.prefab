@@ -104,8 +104,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 403521842702503333}
   - {fileID: 6497316566944664824}
+  - {fileID: 403521842702503333}
   - {fileID: 1923178061368091508}
   - {fileID: 9146273617577578940}
   m_Father: {fileID: 7846565755986501423}
@@ -663,7 +663,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noRecordsObject: {fileID: 5237795528181840870}
   recordsContainer: {fileID: 8480696063217962391}
-  recordPrefab: {fileID: -5465479220678289371, guid: 33202ed3a78196e4cbee87be999d2517, type: 3}
+  levelAttemptPrefab: {fileID: -5465479220678289371, guid: 33202ed3a78196e4cbee87be999d2517, type: 3}
 --- !u!1 &5641124628758020071
 GameObject:
   m_ObjectHideFlags: 0
@@ -1383,7 +1383,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2330523635701983025, guid: 23eb8210f702ca44f8d312c9090488fa, type: 3}
       propertyPath: m_text
-      value: 'Try:'
+      value: 'Name:'
       objectReference: {fileID: 0}
     - target: {fileID: 2330523635701983025, guid: 23eb8210f702ca44f8d312c9090488fa, type: 3}
       propertyPath: m_fontSize
@@ -1491,7 +1491,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8185909797899661830, guid: 23eb8210f702ca44f8d312c9090488fa, type: 3}
       propertyPath: m_Name
-      value: TryText
+      value: NameText
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

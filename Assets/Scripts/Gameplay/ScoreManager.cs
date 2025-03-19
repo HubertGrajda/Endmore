@@ -18,12 +18,16 @@ namespace Scripts
         private int TotalPointsOnLevel { get; set; }
 
         private GameplayManager _gameplayManager;
-        private GameplayManager GameplayManager => _gameplayManager == null 
-            ? _gameplayManager = GameplayManager.Instance
-            : _gameplayManager;
         
         private void Start()
         {
+            _gameplayManager = GameplayManager.Instance;
+            
+            if (_gameplayManager.IsDuringGameplay)
+            {
+                OnLevelStarted(_gameplayManager.CurrentLevel);
+            }
+            
             AddListeners();
         }
 
@@ -34,12 +38,12 @@ namespace Scripts
 
         private void AddListeners()
         {
-            GameplayManager.OnLevelStarted += OnLevelStarted;
+            _gameplayManager.OnLevelStarted += OnLevelStarted;
         }
 
         private void RemoveListeners()
         {
-            GameplayManager.OnLevelStarted -= OnLevelStarted;
+            _gameplayManager.OnLevelStarted -= OnLevelStarted;
         }
 
         private void OnLevelStarted(int _)

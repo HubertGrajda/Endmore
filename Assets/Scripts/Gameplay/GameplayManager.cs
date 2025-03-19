@@ -23,10 +23,13 @@ namespace Scripts.Gameplay
         
         private PlayerController _playerController;
         private PlayerHealthSystem _playerHealthSystem;
-
+        
+        private bool _gameplayStarted;
         private bool _gameplayEnded;
         
         private const int INITIAL_LEVEL_NUMBER = 1;
+        
+        public bool IsDuringGameplay => _gameplayStarted && !_gameplayEnded;
         
         private void Start()
         {
@@ -44,6 +47,7 @@ namespace Scripts.Gameplay
             StartLevel(INITIAL_LEVEL_NUMBER);
             GameplayTimer.StartTimer();
             _gameplayEnded = false;
+            _gameplayStarted = true;
         }
         
         private void StartLevel(int levelNumber)
@@ -89,6 +93,8 @@ namespace Scripts.Gameplay
             SaveAttempt();
             ClearGameplay();
             GameplayTimer.StopTimer();
+            
+            _gameplayStarted = false;
             _gameplayEnded = true;
         }
         
@@ -105,14 +111,15 @@ namespace Scripts.Gameplay
 
         private void SaveAttempt()
         {
-            var attemptNumber = _gameManager.GetAttemptNumber(CurrentLevel) + 1;
+            if (CurrentLevel <= 1) return;
+            
             var attemptData = new LevelAttemptData(
                 CurrentLevel,
-                attemptNumber,
+                _gameManager.PlayerName,
                 CollisionsNumber,
                 GameplayTimer.ElapsedTime);
             
-            _gameManager.AddAttempt(CurrentLevel, attemptData);
+            _gameManager.AddAttempt(attemptData);
         }
         
         private void OnScoreTargetAchieved(int obj)

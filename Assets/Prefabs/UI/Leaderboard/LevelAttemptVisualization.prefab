@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8173599788790851627}
   - component: {fileID: -5465479220678289371}
   m_Layer: 5
-  m_Name: Record
+  m_Name: LevelAttemptVisualization
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,8 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0897a9e01419445abc4d8be8690bd0f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerNameText: {fileID: 6899986818676162692}
   levelNumberText: {fileID: 6836033482824818036}
-  attemptNumberText: {fileID: 6899986818676162692}
   timeText: {fileID: 5025329354949176577}
   collisionsText: {fileID: 9160154141986754465}
 --- !u!1 &7419978375113405840
@@ -158,8 +158,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5167881047677193681}
   - {fileID: 5091272242585980961}
+  - {fileID: 5167881047677193681}
   - {fileID: 7383968238369464068}
   - {fileID: 6691212397021003172}
   m_Father: {fileID: 8173599788790851627}
@@ -463,7 +463,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 749657377437174804, guid: 2e69a720cf3d6ad46bb9e6e9542c19d5, type: 3}
       propertyPath: m_Name
-      value: AttemptNumberText
+      value: PlayerNameText
       objectReference: {fileID: 0}
     - target: {fileID: 3283990371543179301, guid: 2e69a720cf3d6ad46bb9e6e9542c19d5, type: 3}
       propertyPath: m_Pivot.x
@@ -559,11 +559,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3816074467597398144, guid: 2e69a720cf3d6ad46bb9e6e9542c19d5, type: 3}
       propertyPath: m_text
-      value: 0
+      value: Name
       objectReference: {fileID: 0}
     - target: {fileID: 3816074467597398144, guid: 2e69a720cf3d6ad46bb9e6e9542c19d5, type: 3}
       propertyPath: m_fontSize
-      value: 62.8
+      value: 61.15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -9,7 +9,7 @@ namespace Scripts.UI
     {
         [SerializeField] private GameObject noRecordsObject;
         [SerializeField] private Transform recordsContainer;
-        [SerializeField] private RecordVisualizer recordPrefab;
+        [SerializeField] private LevelAttemptVisualizer levelAttemptPrefab;
 
         private GameManager _gameManager;
 
@@ -21,7 +21,6 @@ namespace Scripts.UI
         private void Start()
         {
             var allAttempts = _gameManager.LevelToAttemptsData
-                .SelectMany(x => x.Value)
                 .OrderBy(y => y)
                 .ToList();
 
@@ -38,7 +37,7 @@ namespace Scripts.UI
         {
             foreach (var levelToAttemptsData in allAttempts)
             {
-                var recordInstance = Instantiate(recordPrefab, recordsContainer);
+                var recordInstance = Instantiate(levelAttemptPrefab, recordsContainer);
                 recordInstance.VisualizeAttempt(levelToAttemptsData);
             }
         }

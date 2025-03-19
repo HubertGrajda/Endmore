@@ -7,6 +7,7 @@ namespace Scripts.UI
 {
     public class HUD : MonoBehaviour
     {
+        [SerializeField] private TMP_Text playerNameText;
         [SerializeField] private TMP_Text scoreText;
         [SerializeField] private TMP_Text timerText;
         [SerializeField] private TMP_Text collisionsText;
@@ -14,6 +15,7 @@ namespace Scripts.UI
 
         private ScoreManager _scoreManager;
         private GameplayManager _gameplayManager;
+        private GameManager _gameManager;
     
         private const string TIMER_DISPLAY_FORMAT = @"mm\:ss";
     
@@ -21,6 +23,7 @@ namespace Scripts.UI
         {
             _scoreManager = ScoreManager.Instance;
             _gameplayManager = GameplayManager.Instance;
+            _gameManager = GameManager.Instance;
             
             Refresh();
             AddListeners();
@@ -30,10 +33,11 @@ namespace Scripts.UI
 
         private void Refresh()
         {
-            SetScoreText(_scoreManager.CurrentScore, _scoreManager.CurrentScoreTarget);
-            SetCollisionsNumber(_gameplayManager.CollisionsNumber);
-            SetTimerText(_gameplayManager.GameplayTimer.ElapsedTime);
-            SetLevelText(_gameplayManager.CurrentLevel);
+            SetText(scoreText, $"{_scoreManager.CurrentScore}/{_scoreManager.CurrentScoreTarget}");
+            SetText(timerText, _gameplayManager.GameplayTimer.ElapsedTime.ToString(TIMER_DISPLAY_FORMAT));
+            SetText(collisionsText, _gameplayManager.CollisionsNumber.ToString());
+            SetText(levelText, _gameplayManager.CurrentLevel.ToString());
+            SetText(playerNameText, _gameManager.PlayerName);
         }
 
         private void AddListeners()
@@ -56,42 +60,26 @@ namespace Scripts.UI
             _gameplayManager.GameplayTimer.OnSecondTick -= OnGameplayTimeChanged;
         }
     
-        private void OnGameplayTimeChanged(TimeSpan elapsedTime) => SetTimerText(elapsedTime);
+        private void OnGameplayTimeChanged(TimeSpan elapsedTime) =>
+            SetText(timerText, elapsedTime.ToString(TIMER_DISPLAY_FORMAT));
     
-        private void OnLevelStarted(int levelNumber) => SetLevelText(levelNumber);
+        private void OnLevelStarted(int levelNumber) =>
+            SetText(levelText, levelNumber.ToString());
 
-        private void OnScoreChanged(int score) => SetScoreText(score, _scoreManager.CurrentScoreTarget);
+        private void OnScoreChanged(int score) =>
+            SetText(scoreText, $"{score}/{_scoreManager.CurrentScoreTarget}");
 
-        private void OnScoreTargetChanged(int scoreTarget) => SetScoreText(_scoreManager.CurrentScore, scoreTarget);
+        private void OnScoreTargetChanged(int scoreTarget) =>
+            SetText(scoreText, $"{_scoreManager.CurrentScore}/{scoreTarget}");
     
-        private void OnCollisionsNumberChanged(int collisionsNumber) => SetCollisionsNumber(collisionsNumber);
+        private void OnCollisionsNumberChanged(int collisionsNumber) =>
+            SetText(collisionsText, collisionsNumber.ToString());
 
-        private void SetTimerText(TimeSpan elapsedTime)
+        private void SetText(TMP_Text text, string value)
         {
-            if (!timerText) return;
-        
-            timerText.text = elapsedTime.ToString(TIMER_DISPLAY_FORMAT);
-        }
-        
-        private void SetLevelText(int levelNumber)
-        {
-            if (!levelText) return;
-        
-            levelText.text = levelNumber.ToString();
-        }
-        
-        private void SetScoreText(int score, int scoreTarget)
-        {
-            if (!scoreText) return;
-
-            scoreText.text = $"{score}/{scoreTarget}";
-        }
-        
-        private void SetCollisionsNumber(int collisionsNumber)
-        {
-            if (!collisionsText) return;
-        
-            collisionsText.text = collisionsNumber.ToString();
+            if (!text) return;
+            
+            text.text = value;
         }
     }
 }
