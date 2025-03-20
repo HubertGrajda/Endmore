@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 449d6e570ff94d649d66b755e9720a8a, type: 3}
   m_Name: TwoRightTilesFreeCondition
   m_EditorClassIdentifier: 
-  type: 2
+  directions: {fileID: 11400000, guid: d2c10110dc67f1141af30ffe7f23dd6b, type: 2}
   range: 2

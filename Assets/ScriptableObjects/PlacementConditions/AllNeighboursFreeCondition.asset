@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 449d6e570ff94d649d66b755e9720a8a, type: 3}
   m_Name: AllNeighboursFreeCondition
   m_EditorClassIdentifier: 
-  type: 0
+  directions: {fileID: 11400000, guid: aa4a6b155cdf3a14b98c892c03eeb124, type: 2}
+  range: 1

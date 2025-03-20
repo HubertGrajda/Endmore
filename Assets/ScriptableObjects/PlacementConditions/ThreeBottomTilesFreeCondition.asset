@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 449d6e570ff94d649d66b755e9720a8a, type: 3}
   m_Name: ThreeBottomTilesFreeCondition
   m_EditorClassIdentifier: 
-  type: 4
+  directions: {fileID: 11400000, guid: ca212e7573fabff47bac1804518ecec0, type: 2}
   range: 3

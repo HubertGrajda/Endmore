@@ -22,4 +22,4 @@ MonoBehaviour:
   <ScaleFactor>k__BackingField: 1
   <ProjectileConfig>k__BackingField: {fileID: 11400000, guid: 7a3ea0ad8a35318478c6f4f124ccbd00, type: 2}
   <LaunchingCooldown>k__BackingField: 2
-  <Direction>k__BackingField: 3
+  <DirectionsSet>k__BackingField: {fileID: 11400000, guid: ca212e7573fabff47bac1804518ecec0, type: 2}

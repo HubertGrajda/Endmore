@@ -7,6 +7,6 @@ namespace Scripts.Gameplay
     {
         [field: SerializeField] public ProjectileConfig ProjectileConfig { get; private set; }
         [field: SerializeField] public float LaunchingCooldown { get; private set; }
-        [field: SerializeField] public ShootingDirection Direction { get; private set; }
+        [field: SerializeField] public DirectionsSet DirectionsSet { get; private set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Scripts.Gameplay
@@ -53,22 +52,18 @@ namespace Scripts.Gameplay
 
                 yield return LaunchingAnimation();
                 
-                var direction = GetDirectionForProjectile();
-                var projectile = (Projectile)SpawnableFactory.SpawnFromPool(_config.ProjectileConfig);
+                if (_config.DirectionsSet == null) yield break;
                 
-                projectile.Launch(direction, this);
+                var directionsToShoot = _config.DirectionsSet.GetVectors();
+
+                foreach (var direction in directionsToShoot)
+                {
+                    var projectile = (Projectile)SpawnableFactory.SpawnFromPool(_config.ProjectileConfig);
+                    
+                    projectile.Launch(direction, this);
+                }
             }
         }
-
-        private Vector2 GetDirectionForProjectile() => _config.Direction switch 
-        {
-            ShootingDirection.None => Vector2.zero,
-            ShootingDirection.Left => Vector2.left,
-            ShootingDirection.Right => Vector2.right,
-            ShootingDirection.Down => Vector2.down,
-            ShootingDirection.Up => Vector2.up,
-            _ => throw new ArgumentOutOfRangeException()
-        };
 
         private IEnumerator LaunchingAnimation()
         {
@@ -80,14 +75,5 @@ namespace Scripts.Gameplay
             yield return null;
             yield return new WaitWhile(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
         }
-    }
-
-    public enum ShootingDirection
-    {
-        None = 0,
-        Left = 1,
-        Right = 2,
-        Down = 3,
-        Up = 4,
     }
 }
