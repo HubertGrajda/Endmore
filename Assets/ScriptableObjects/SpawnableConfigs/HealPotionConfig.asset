@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c0c20c015164e62b05f22031433b29e, type: 3}
   m_Name: HealPotionConfig
   m_EditorClassIdentifier: 
-  <PlacementConditions>k__BackingField: []
-  <GameStateConditions>k__BackingField: []
-  <Prefab>k__BackingField: {fileID: 381964820168396709, guid: c31872b2fb5700842b261584e1729fa9, type: 3}
   <Sprite>k__BackingField: {fileID: 366320403, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
   <Color>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
   <ScaleFactor>k__BackingField: 1
+  <Prefab>k__BackingField: {fileID: 381964820168396709, guid: c31872b2fb5700842b261584e1729fa9, type: 3}
+  <Effects>k__BackingField:
+  - {fileID: 11400000, guid: 81ffcf40468fd8a4fa3c1f3a055c1447, type: 2}

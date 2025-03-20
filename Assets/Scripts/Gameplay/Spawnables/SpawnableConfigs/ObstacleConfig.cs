@@ -3,7 +3,7 @@
 namespace Scripts.Gameplay
 {
     [CreateAssetMenu(fileName = "Obstacle", menuName = "ScriptableObjects/Spawnable/Obstacle")]
-    public class ObstacleConfig : SpawnableConfig
+    public class ObstacleConfig : TileBasedSpawnableConfig<Obstacle>
     {
     }
 }

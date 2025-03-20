@@ -4,9 +4,8 @@ using UnityEngine;
 namespace Scripts.Gameplay
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Projectile : Spawnable, IInteractable
+    public class Projectile : Spawnable<ProjectileConfig>, IInteractable
     {
-        private ProjectileConfig _config; 
         private Rigidbody2D _rigidbody;
         private ProjectileLauncher _launcher;
         private bool _hit;
@@ -14,11 +13,7 @@ namespace Scripts.Gameplay
         public override void Initialize(SpawnableConfig config)
         {
             base.Initialize(config);
-            
-            if (config is not ProjectileConfig obstacleConfig) return;
-            
             _rigidbody = GetComponent<Rigidbody2D>();
-            _config = obstacleConfig;
         }
 
         public override void OnDespawn()
@@ -33,7 +28,7 @@ namespace Scripts.Gameplay
         {
             _launcher = launcher;
             transform.position = launcher.transform.position;
-            StartCoroutine(MovementCoroutine(direction, _config.Speed));
+            StartCoroutine(MovementCoroutine(direction, Config.Speed));
         }
 
         private IEnumerator MovementCoroutine(Vector2 direction, float speed)
@@ -52,7 +47,7 @@ namespace Scripts.Gameplay
             _hit = true;
             ApplyDamage(interactor);
             ApplyKnockback(interactor);
-            SpawnableFactory.ReturnToPool(this);
+            Clear();
         }
         
         private void ApplyKnockback(GameObject interactor)
@@ -60,14 +55,14 @@ namespace Scripts.Gameplay
             if (!interactor.TryGetComponent(out IKnockbackable knockbackable)) return;
             
             var direction = (interactor.transform.position - transform.position).normalized;
-            knockbackable.ApplyKnockback(direction * _config.KnockBackStrength, _config.KnockBackDuration);
+            knockbackable.ApplyKnockback(direction * Config.KnockBackStrength, Config.KnockBackDuration);
         }
 
         private void ApplyDamage(GameObject interactor)
         {
             if (!interactor.TryGetComponent(out IDamagable damagable)) return;
             
-            damagable.TakeDamage(_config.Damage);
+            damagable.TakeDamage(Config.Damage);
         }
     }
 }

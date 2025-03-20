@@ -2,16 +2,12 @@
 
 namespace Scripts.Gameplay
 {
-    public class Spawnable : MonoBehaviour
+    public abstract class Spawnable : MonoBehaviour
     {
         [SerializeField] protected SpriteRenderer spriteRenderer;
         
-        public SpawnableConfig Config { get; private set; }
-
         public virtual void Initialize(SpawnableConfig config)
         {
-            Config = config;
-
             transform.localScale *= config.ScaleFactor;
             
             if (spriteRenderer && config.Sprite)
@@ -27,6 +23,24 @@ namespace Scripts.Gameplay
         
         public virtual void OnDespawn()
         {
+        }
+        
+        public abstract void Clear();
+    }
+
+    public class Spawnable<TConfigType> : Spawnable where TConfigType : SpawnableConfig
+    {
+        public TConfigType Config { get; private set; }
+
+        public override void Initialize(SpawnableConfig config)
+        {
+            base.Initialize(config);
+            Config = (TConfigType)config;
+        }
+
+        public override void Clear()
+        {
+            SpawnableFactory.ReturnToPool(this);
         }
     }
 }

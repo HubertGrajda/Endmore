@@ -3,11 +3,10 @@ using UnityEngine;
 
 namespace Scripts.Gameplay
 {
-    public class ProjectileLauncher : Spawnable
+    public class ProjectileLauncher : Spawnable<ProjectileLauncherConfig>
     {
         [SerializeField] private Animator animator;
         
-        private ProjectileLauncherConfig _config; 
         private GameplayManager _gameplayManager; 
         private bool _isActive;
         
@@ -16,10 +15,6 @@ namespace Scripts.Gameplay
         public override void Initialize(SpawnableConfig config)
         {
             base.Initialize(config);
-            
-            if (config is not ProjectileLauncherConfig obstacleConfig) return;
-            
-            _config = obstacleConfig;
             _gameplayManager = GameplayManager.Instance;
         }
         
@@ -48,17 +43,17 @@ namespace Scripts.Gameplay
             
             while (_isActive)
             {
-                yield return new WaitForSeconds(_config.LaunchingCooldown);
+                yield return new WaitForSeconds(Config.LaunchingCooldown);
 
                 yield return LaunchingAnimation();
                 
-                if (_config.DirectionsSet == null) yield break;
+                if (Config.DirectionsSet == null) yield break;
                 
-                var directionsToShoot = _config.DirectionsSet.GetVectors();
+                var directionsToShoot = Config.DirectionsSet.GetVectors();
 
                 foreach (var direction in directionsToShoot)
                 {
-                    var projectile = (Projectile)SpawnableFactory.SpawnFromPool(_config.ProjectileConfig);
+                    var projectile = (Projectile)SpawnableFactory.SpawnFromPool(Config.ProjectileConfig);
                     
                     projectile.Launch(direction, this);
                 }

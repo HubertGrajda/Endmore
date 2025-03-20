@@ -1,18 +1,36 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Scripts.Gameplay
 {
-    public class SpawnableConfig : ScriptableObject
+    public abstract class SpawnableConfig : ScriptableObject
     {
-        [field: SerializeField] public List<PlacementCondition> PlacementConditions { get; set; }
-        [field: SerializeField] public List<GameStateCondition> GameStateConditions { get; set; }
-        [field: SerializeField] public Spawnable Prefab { get; private set; }
+        [Header("Spawnable Settings")]
         [field: SerializeField] public Sprite Sprite { get; set; }
         [field: SerializeField] public Color Color { get; set; } = Color.white;
         [field: SerializeField] public float ScaleFactor { get; set; } = 1f;
 
-        public Spawnable Create(Transform transform)
+        public abstract Spawnable Create(Transform transform);
+
+        public virtual void OnGet(Spawnable spawnable)
+        {
+            spawnable.gameObject.SetActive(true);
+            spawnable.OnSpawn();
+        }
+
+        public void OnRelease(Spawnable spawnable)
+        {
+            spawnable.OnDespawn();
+            spawnable.gameObject.SetActive(false);
+        }
+
+        public void OnDestruction(Spawnable spawnable) => Destroy(spawnable.gameObject);
+    }
+
+    public abstract class SpawnableConfig<TSpawnable> : SpawnableConfig where TSpawnable : Spawnable
+    {
+        [field: SerializeField] public TSpawnable Prefab { get; private set; }
+        
+        public override Spawnable Create(Transform transform)
         {
             if (Prefab == null)
             {
@@ -28,19 +46,5 @@ namespace Scripts.Gameplay
 
             return spawnableInstance;
         }
-
-        public virtual void OnGet(Spawnable spawnable)
-        {
-            spawnable.gameObject.SetActive(true);
-            spawnable.OnSpawn();
-        }
-
-        public void OnRelease(Spawnable spawnable)
-        {
-            spawnable.OnDespawn();
-            spawnable.gameObject.SetActive(false);
-        }
-
-        public void OnDestruction(Spawnable spawnable) => Destroy(spawnable.gameObject);
     }
 }

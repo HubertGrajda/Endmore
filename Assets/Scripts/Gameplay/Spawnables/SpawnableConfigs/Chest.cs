@@ -4,53 +4,52 @@ using UnityEngine.Events;
 
 namespace Scripts.Gameplay
 {
-    public class Chest : Spawnable, IInteractable
+    public class Chest : Spawnable<ChestConfig>, IInteractable
     {
         [SerializeField] private List<Transform> contentSlots;
         [SerializeField] private UnityEvent onChestOpened;
         
-        private ChestConfig _chestConfig;
         private bool _isOpened;
+        private readonly List<Spawnable> _spawnedContent = new();
         
         public bool CanInteract => !_isOpened;
-
-        public override void Initialize(SpawnableConfig config)
-        {
-            base.Initialize(config);
-            
-            if (config is not ChestConfig chestConfig) return;
-            
-            _chestConfig = chestConfig;
-        }
-
+        
         public void Interact(GameObject interactor) => Open();
 
         public override void OnDespawn()
         {
             base.OnDespawn();
             _isOpened = false;
-            spriteRenderer.sprite = _chestConfig.Sprite;
+            _spawnedContent.Clear();
+            spriteRenderer.sprite = Config.Sprite;
         }
 
         private void Open()
         {
             if (_isOpened) return;
 
-            for (var i = 0; i < _chestConfig.Content.Count; i++)
+            for (var i = 0; i < Config.Content.Count; i++)
             {
                 if (i >= contentSlots.Count) break;
                 
-                var spawnable = _chestConfig.Content[i];
+                var spawnable = Config.Content[i];
                 
                 var slot = contentSlots[i];
                 
                 var spawnableInstance = SpawnableFactory.SpawnFromPool(spawnable);
                 spawnableInstance.transform.position = slot.position;
+                _spawnedContent.Add(spawnableInstance);
             }
             
-            spriteRenderer.sprite = _chestConfig.ChestOpenedSprite;
+            spriteRenderer.sprite = Config.ChestOpenedSprite;
             onChestOpened?.Invoke();
             _isOpened = true;
+        }
+
+        public override void Clear()
+        {
+            _spawnedContent.ForEach(spawnable => spawnable.Clear());
+            base.Clear();
         }
     }
 }

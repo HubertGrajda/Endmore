@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 namespace Scripts.Gameplay
 {
-    public class Potion : Spawnable, IInteractable
+    public class Potion : Spawnable<PotionConfig>, IInteractable
     {
-        [SerializeField] private List<Effect> playerEffects;
         [SerializeField] private UnityEvent onCollected;
         
         public void Interact(GameObject interactor)
         {
             var applied = false;
-            foreach (var effect in playerEffects)
+            
+            foreach (var effect in Config.Effects)
             {
                 if (effect.TryToApply(interactor))
                 {
@@ -23,7 +22,7 @@ namespace Scripts.Gameplay
             if (!applied) return;
             
             onCollected?.Invoke();
-            SpawnableFactory.ReturnToPool(this);
+            Clear();
         }
     }
 }

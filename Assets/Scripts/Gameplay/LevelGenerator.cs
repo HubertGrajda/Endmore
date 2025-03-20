@@ -13,10 +13,9 @@ namespace Scripts.Gameplay
         [SerializeField] private Tilemap spawnArea;
         [SerializeField] private Tilemap walls;
         
-        [SerializeField] private List<SpawnableCollection> spawnableCollections;
+        [SerializeField] private List<TileBasedSpawnableCollection> spawnableCollections;
         
         private int _currentSeed;
-        private Transform _playerTransform;
         
         private HashSet<Vector3Int> _positionsWithSpawnAllowed = new();
         
@@ -29,11 +28,6 @@ namespace Scripts.Gameplay
         private void Awake()
         {
             _positionsWithSpawnAllowed = GetPositionsWithSpawnAllowed();
-        }
-
-        private void Start()
-        {
-            _playerTransform = PlayerController.Instance.transform;
         }
 
         private HashSet<Vector3Int> GetPositionsWithSpawnAllowed()
@@ -59,13 +53,13 @@ namespace Scripts.Gameplay
             spawnableCollections.ForEach(SpawnCollection);
         }
 
-        private void SpawnCollection(SpawnableCollection collection)
+        private void SpawnCollection(TileBasedSpawnableCollection collection)
         {
             for (var i = 0; i < collection.ObjectsCount; i++)
             {
                 var attemptsLeft = MAX_SPAWN_ATTEMPTS;
                 Vector3Int position;
-                SpawnableConfig config;
+                TileBasedSpawnableConfig config;
 
                 do
                 {
@@ -84,7 +78,7 @@ namespace Scripts.Gameplay
 
         private void ReservePlayerTiles()
         {
-            var tilePos = spawnArea.WorldToCell(_playerTransform.position);
+            var tilePos = spawnArea.WorldToCell(PlayerController.Instance.transform.position);
 
             for (var i = tilePos.x - PLAYER_SAFE_RANGE; i <= tilePos.x + PLAYER_SAFE_RANGE; i++)
             {
@@ -106,12 +100,13 @@ namespace Scripts.Gameplay
             return true;
         }
         
-        private bool TryGetRandomSpawnableForTile(Vector3Int position, SpawnableCollection collection,
-            out SpawnableConfig config)
+        private bool TryGetRandomSpawnableForTile(Vector3Int position, TileBasedSpawnableCollection collection,
+            out TileBasedSpawnableConfig config)
         {
             config = default;
             
             if (!TryGetFreePositions(out var freePositions)) return false;
+            
             
             var configsWithConditionsMet = collection.SpawnableConfigs
                 .Where(config => config.PlacementConditions.Met(position, freePositions) && config.GameStateConditions.Met())
@@ -125,7 +120,7 @@ namespace Scripts.Gameplay
             return config != null;
         }
 
-        private void Spawn(SpawnableConfig spawnableConfig, Vector3Int tilePosition)
+        private void Spawn(TileBasedSpawnableConfig spawnableConfig, Vector3Int tilePosition)
         {
             var worldPosition = spawnArea.GetCellCenterWorld(tilePosition);
             var spawnableInstance = SpawnableFactory.SpawnFromPool(spawnableConfig);
@@ -135,7 +130,7 @@ namespace Scripts.Gameplay
             ReservePositionsForSpawnedSpawnable(tilePosition, spawnableConfig);
         }
         
-        private void ReservePositionsForSpawnedSpawnable(Vector3Int spawnPosition, SpawnableConfig spawnableConfig)
+        private void ReservePositionsForSpawnedSpawnable(Vector3Int spawnPosition, TileBasedSpawnableConfig spawnableConfig)
         {
             var positionsReservedByConditions = spawnableConfig.PlacementConditions
                 .GetRequiredReservedPositions(spawnPosition);
@@ -154,7 +149,7 @@ namespace Scripts.Gameplay
                 .Where(spawnable => spawnable != null && spawnable.gameObject.activeInHierarchy)
                 .ToList();
             
-            activeSpawnedObjects.ForEach(SpawnableFactory.ReturnToPool);
+            activeSpawnedObjects.ForEach(spawnable => spawnable.Clear());
             
             _reservedPositions.Clear();
             _spawnedObjects.Clear();
@@ -176,10 +171,10 @@ namespace Scripts.Gameplay
         }
 
         [Serializable]
-        private class SpawnableCollection
+        private class TileBasedSpawnableCollection
         {
             [field: SerializeField] public int ObjectsCount { get; private set; }
-            [field: SerializeField] public List<SpawnableConfig> SpawnableConfigs { get; private set; }
+            [field: SerializeField] public List<TileBasedSpawnableConfig> SpawnableConfigs { get; private set; }
         }
     }
 }

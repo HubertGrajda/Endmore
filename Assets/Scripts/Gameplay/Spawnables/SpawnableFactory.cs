@@ -10,7 +10,7 @@ namespace Scripts.Gameplay
 
         public static Spawnable SpawnFromPool(SpawnableConfig config) => Instance.GetOrCreatePool(config).Get();
 
-        public static void ReturnToPool(Spawnable spawnable)
+        public static void ReturnToPool<TConfig>(Spawnable<TConfig> spawnable) where TConfig : SpawnableConfig
         {
             if (!spawnable.gameObject.activeInHierarchy) return;
             
