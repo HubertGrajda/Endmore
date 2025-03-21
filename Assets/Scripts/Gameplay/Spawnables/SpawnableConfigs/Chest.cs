@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Scripts.Player;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,11 +11,23 @@ namespace Scripts.Gameplay
         [SerializeField] private UnityEvent onChestOpened;
         
         private bool _isOpened;
+        private PlayerInventory _playerInventory;
         private readonly List<Spawnable> _spawnedContent = new();
         
-        public bool CanInteract => !_isOpened;
-        
-        public void Interact(GameObject interactor) => Open();
+        public bool CanInteract => !_isOpened && (Config.KeyItem == null || _playerInventory.Has(Config.KeyItem));
+
+        public override void Initialize(SpawnableConfig config)
+        {
+            base.Initialize(config);
+            _playerInventory = PlayerController.Instance.PlayerInventory;
+        }
+
+        public void Interact(GameObject interactor)
+        {
+            if (!CanInteract) return;
+                
+            Open();
+        }
 
         public override void OnDespawn()
         {
@@ -28,6 +41,8 @@ namespace Scripts.Gameplay
         {
             if (_isOpened) return;
 
+            _playerInventory.Remove(Config.KeyItem);
+            
             for (var i = 0; i < Config.Content.Count; i++)
             {
                 if (i >= contentSlots.Count) break;

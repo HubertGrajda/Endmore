@@ -9,6 +9,9 @@ namespace Scripts.Player
         
         private PlayerHealthSystem _playerHealthSystem;
         public PlayerHealthSystem PlayerHealthSystem => _playerHealthSystem;
+        
+        private PlayerInventory _playerInventory;
+        public PlayerInventory PlayerInventory => _playerInventory;
 
         protected override void Awake()
         {
@@ -26,6 +29,11 @@ namespace Scripts.Player
             if (!TryGetComponent(out _playerHealthSystem))
             {
                 Debug.LogError($"{name}: Missing component: {nameof(PlayerHealthSystem)}");
+            }
+            
+            if (!TryGetComponent(out _playerInventory))
+            {
+                Debug.LogError($"{name}: Missing component: {nameof(PlayerInventory)}");
             }
         }
     }

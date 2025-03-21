@@ -9,5 +9,6 @@ namespace Scripts.Gameplay
         [field: Header("Chest Settings")]
         [field: SerializeField] public Sprite ChestOpenedSprite { get; private set; }
         [field: SerializeField] public List<SpawnableConfig> Content { get; private set; }
+        [field: SerializeField] public ItemConfig KeyItem { get; private set; }
     }
 }
