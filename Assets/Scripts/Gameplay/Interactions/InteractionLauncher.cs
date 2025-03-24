@@ -1,15 +1,19 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace Scripts.Gameplay
 {
     [RequireComponent(typeof(IInteractable))]
     public abstract class InteractionLauncher : MonoBehaviour
     {
-        protected IInteractable Interactable { get; private set; }
-
+        private IInteractable[] _interactables;
+        
+        protected List<IInteractable> Interactables => _interactables.Where(x => x.CanInteract).ToList();
+        
         private void Awake()
         {
-            Interactable = GetComponent<IInteractable>();
+            _interactables = GetComponents<IInteractable>();
         }
     }
 }

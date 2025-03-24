@@ -7,7 +7,10 @@ namespace Scripts.Gameplay
     {
         private void OnTriggerEnter2D(Collider2D other)
         {
-            Interactable.Interact(other.gameObject);
+            foreach (var interactable in Interactables)
+            {
+                interactable.Interact(other.gameObject);
+            }
         }
     }
 }

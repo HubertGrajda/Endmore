@@ -27,7 +27,7 @@ namespace Scripts.Gameplay
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (Interactable is not { CanInteract: true }) return;
+            if (Interactables.Count == 0) return;
             if (!other.CompareTag(PLAYER_TAG)) return;
             
             _triggerObject = other.gameObject;
@@ -36,7 +36,7 @@ namespace Scripts.Gameplay
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (Interactable is not { CanInteract: true }) return;
+            if (Interactables.Count == 0) return;
             if (other.gameObject != _triggerObject) return;
             
             _triggerObject = null;
@@ -89,11 +89,14 @@ namespace Scripts.Gameplay
 
         private void OnInputStarted(InputAction.CallbackContext obj)
         {
-            if (Interactable is not { CanInteract: true }) return;
-            
-            Interactable.Interact(_triggerObject);
+            if (Interactables.Count == 0) return;
 
-            if (Interactable.CanInteract) return;
+            foreach (var interactable in Interactables)
+            {
+                interactable.Interact(_triggerObject);
+            }
+
+            if (Interactables.Count == 0) return;
             
             DeactivateZone();
         }
