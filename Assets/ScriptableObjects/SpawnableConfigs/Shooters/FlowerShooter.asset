@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe5fdba2f6ec45d4ba9fbf132d0d6b96, type: 3}
   m_Name: FlowerShooter
   m_EditorClassIdentifier: 
+  <Sprite>k__BackingField: {fileID: -244875748, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
+  <Color>k__BackingField: {r: 0.8666667, g: 0.8666667, b: 0.8666667, a: 1}
+  <ScaleFactor>k__BackingField: 1
   <PlacementConditions>k__BackingField:
   - {fileID: 11400000, guid: 95b04b7d6218b1a43967aab08f451b2b, type: 2}
   <GameStateConditions>k__BackingField:
   - {fileID: 11400000, guid: 7bc83a2d7fc095048bdd530c413e073b, type: 2}
   <Prefab>k__BackingField: {fileID: 340076948096957023, guid: f0b3f37317097a54a98859024818adfc, type: 3}
-  <Sprite>k__BackingField: {fileID: -244875748, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
-  <Color>k__BackingField: {r: 0.8666667, g: 0.8666667, b: 0.8666667, a: 1}
-  <ScaleFactor>k__BackingField: 1
-  <ProjectileConfig>k__BackingField: {fileID: 11400000, guid: 7a3ea0ad8a35318478c6f4f124ccbd00, type: 2}
-  <LaunchingCooldown>k__BackingField: 2
-  <DirectionsSet>k__BackingField: {fileID: 11400000, guid: ca212e7573fabff47bac1804518ecec0, type: 2}
+  <AttackCooldown>k__BackingField: 2
+  <AttackStrategy>k__BackingField: {fileID: 11400000, guid: bd4846cfd338d6e44815a132f660dac4, type: 2}

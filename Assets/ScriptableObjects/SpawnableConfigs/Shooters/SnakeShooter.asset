@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe5fdba2f6ec45d4ba9fbf132d0d6b96, type: 3}
   m_Name: SnakeShooter
   m_EditorClassIdentifier: 
+  <Sprite>k__BackingField: {fileID: -1721448698, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
+  <Color>k__BackingField: {r: 0.8666667, g: 0.8666667, b: 0.8666667, a: 1}
+  <ScaleFactor>k__BackingField: 1
   <PlacementConditions>k__BackingField:
   - {fileID: 11400000, guid: 569611951c9b5474196b6a5d5dd38577, type: 2}
   <GameStateConditions>k__BackingField:
   - {fileID: 11400000, guid: 905869f15dd941042885450fb1700fc1, type: 2}
   <Prefab>k__BackingField: {fileID: 340076948096957023, guid: bc95d7a47eeca2740986363609dff1b7, type: 3}
-  <Sprite>k__BackingField: {fileID: -1721448698, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
-  <Color>k__BackingField: {r: 0.8666667, g: 0.8666667, b: 0.8666667, a: 1}
-  <ScaleFactor>k__BackingField: 1
-  <ProjectileConfig>k__BackingField: {fileID: 11400000, guid: 7f5dae2cd1ceb234a88f9d6df1bf39f5, type: 2}
-  <LaunchingCooldown>k__BackingField: 2
-  <DirectionsSet>k__BackingField: {fileID: 11400000, guid: ad81b4133ab20ab48a6d2411e0f0a28c, type: 2}
+  <AttackCooldown>k__BackingField: 2
+  <AttackStrategy>k__BackingField: {fileID: 11400000, guid: 061c2490ade4637429f19a900a7f6f62, type: 2}

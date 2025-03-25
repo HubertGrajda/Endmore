@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Scripts.Gameplay
 {
-    [CreateAssetMenu(fileName = "PotionConfig", menuName = "ScriptableObjects/Spawnable/PotionConfig")]
+    [CreateAssetMenu(fileName = "Potion", menuName = "ScriptableObjects/Spawnable/Potion")]
     public class PotionConfig : SpawnableConfig<Potion>
     {
         [field: Header("Potion Settings")]

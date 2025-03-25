@@ -1846,6 +1846,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2998694427210039927, guid: bcf6637193484344e89b75af2f4616e8, type: 3}
+      propertyPath: spawnableCollections.Array.data[2].<SpawnableConfigs>k__BackingField.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2998694427210039927, guid: bcf6637193484344e89b75af2f4616e8, type: 3}
       propertyPath: spawnableCollections.Array.data[3].<SpawnableConfigs>k__BackingField.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -1861,6 +1865,14 @@ PrefabInstance:
       propertyPath: 'spawnableCollections.Array.data[1].<SpawnableConfigs>k__BackingField.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 5a43b21fbfd46fe4fb555174171f2c49, type: 2}
+    - target: {fileID: 2998694427210039927, guid: bcf6637193484344e89b75af2f4616e8, type: 3}
+      propertyPath: 'spawnableCollections.Array.data[2].<SpawnableConfigs>k__BackingField.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4912c678432a31c4da61c0ec66d19b46, type: 2}
+    - target: {fileID: 2998694427210039927, guid: bcf6637193484344e89b75af2f4616e8, type: 3}
+      propertyPath: 'spawnableCollections.Array.data[2].<SpawnableConfigs>k__BackingField.Array.data[6]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 05c9dc89af8d0454eb95f3244ad0be8a, type: 2}
     - target: {fileID: 2998694427210039927, guid: bcf6637193484344e89b75af2f4616e8, type: 3}
       propertyPath: 'spawnableCollections.Array.data[3].<SpawnableConfigs>k__BackingField.Array.data[0]'
       value: 

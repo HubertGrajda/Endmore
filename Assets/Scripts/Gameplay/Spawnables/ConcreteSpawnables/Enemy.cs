@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace Scripts.Gameplay
 {
-    public class ProjectileLauncher : Spawnable<ProjectileLauncherConfig>
+    public class Enemy : Spawnable<EnemyConfig>
     {
         [SerializeField] private Animator animator;
         
         private GameplayManager _gameplayManager; 
         private bool _isActive;
         
-        private static readonly int Launch = Animator.StringToHash("Launch");
+        private static readonly int LaunchAttackAnimation = Animator.StringToHash("Launch");
         
         public override void Initialize(SpawnableConfig config)
         {
@@ -34,37 +34,28 @@ namespace Scripts.Gameplay
 
         private void OnLevelStarted(int _)
         {
-            StartCoroutine(ShootingCoroutine());
+            StartCoroutine(AttackingCoroutine());
         }
 
-        private IEnumerator ShootingCoroutine()
+        private IEnumerator AttackingCoroutine()
         {
             _isActive = true;
             
             while (_isActive)
             {
-                yield return new WaitForSeconds(Config.LaunchingCooldown);
+                yield return new WaitForSeconds(Config.AttackCooldown);
 
-                yield return LaunchingAnimation();
+                yield return AttackAnimationCoroutine();
                 
-                if (Config.DirectionsSet == null) yield break;
-                
-                var directionsToShoot = Config.DirectionsSet.GetVectors();
-
-                foreach (var direction in directionsToShoot)
-                {
-                    var projectile = (Projectile)SpawnableFactory.SpawnFromPool(Config.ProjectileConfig);
-                    
-                    projectile.Launch(direction, this);
-                }
+                Config.AttackStrategy.ExecuteAttack(this);
             }
         }
 
-        private IEnumerator LaunchingAnimation()
+        private IEnumerator AttackAnimationCoroutine()
         {
             if (animator == null) yield break;
             
-            animator.SetTrigger(Launch);
+            animator.SetTrigger(LaunchAttackAnimation);
                     
             yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
             yield return null;

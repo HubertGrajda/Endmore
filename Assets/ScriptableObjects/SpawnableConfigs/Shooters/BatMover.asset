@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe5fdba2f6ec45d4ba9fbf132d0d6b96, type: 3}
-  m_Name: SkeletonShooter
+  m_Name: BatMover
   m_EditorClassIdentifier: 
-  <Sprite>k__BackingField: {fileID: 21300000, guid: 0bf50b8898209df41a66bc763b3309f4, type: 3}
+  <Sprite>k__BackingField: {fileID: 94621673, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
   <Color>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
   <ScaleFactor>k__BackingField: 1
   <PlacementConditions>k__BackingField:
+  - {fileID: 11400000, guid: 569611951c9b5474196b6a5d5dd38577, type: 2}
   - {fileID: 11400000, guid: 349baeb44485bda4ead29e2a04ed61c2, type: 2}
-  <GameStateConditions>k__BackingField:
-  - {fileID: 11400000, guid: 31cad83ba0939ec46ab3831a5fb05c7d, type: 2}
-  <Prefab>k__BackingField: {fileID: 340076948096957023, guid: f5d7c466bfd7f9f4688560af11a3ca41, type: 3}
-  <AttackCooldown>k__BackingField: 1
-  <AttackStrategy>k__BackingField: {fileID: 11400000, guid: 812699fc3e759a9469391f81cc348dd4, type: 2}
+  <GameStateConditions>k__BackingField: []
+  <Prefab>k__BackingField: {fileID: 8121558539088450323, guid: 93aa4b8688cc5a5459a4e01e1b14005a, type: 3}
+  <AttackCooldown>k__BackingField: 4
+  <AttackStrategy>k__BackingField: {fileID: 11400000, guid: a05dcf14faaf6694da8661ce1b1636a7, type: 2}

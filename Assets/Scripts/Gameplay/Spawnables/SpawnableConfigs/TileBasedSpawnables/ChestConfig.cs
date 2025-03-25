@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Scripts.Gameplay
 {
-    [CreateAssetMenu(fileName = "ChestConfig", menuName = "ScriptableObjects/Spawnable/ChestConfig")]
+    [CreateAssetMenu(fileName = "Chest", menuName = "ScriptableObjects/Spawnable/Chest")]
     public class ChestConfig : TileBasedSpawnableConfig<Chest>
     {
         [field: Header("Chest Settings")]

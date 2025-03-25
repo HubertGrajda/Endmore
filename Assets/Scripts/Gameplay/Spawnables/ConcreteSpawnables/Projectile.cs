@@ -4,11 +4,15 @@ using UnityEngine;
 namespace Scripts.Gameplay
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Projectile : Spawnable<ProjectileConfig>, IInteractable
+    public class Projectile : Spawnable<ProjectileConfig>, IInteractable, IDamageProvider, IKnockBackProvider
     {
         private Rigidbody2D _rigidbody;
-        private ProjectileLauncher _launcher;
+        private Enemy _enemy;
         private bool _hit;
+        
+        public int DamageAmount => Config.Damage;
+        public float KnockbackStrength => Config.KnockBackStrength;
+        public float KnockbackDuration => Config.KnockBackDuration;
         
         public override void Initialize(SpawnableConfig config)
         {
@@ -21,13 +25,13 @@ namespace Scripts.Gameplay
             base.OnDespawn();
             StopAllCoroutines();
             _hit = false;
-            _launcher = null;
+            _enemy = null;
         }
 
-        public void Launch(Vector3 direction, ProjectileLauncher launcher)
+        public void Launch(Vector3 direction, Enemy enemy)
         {
-            _launcher = launcher;
-            transform.position = launcher.transform.position;
+            _enemy = enemy;
+            transform.position = enemy.transform.position;
             StartCoroutine(MovementCoroutine(direction, Config.Speed));
         }
 
@@ -42,27 +46,10 @@ namespace Scripts.Gameplay
         
         public void Interact(GameObject interactor)
         {
-            if (_hit || (_launcher && interactor == _launcher.gameObject)) return;
+            if (_hit || (_enemy && interactor == _enemy.gameObject)) return;
             
             _hit = true;
-            ApplyDamage(interactor);
-            ApplyKnockback(interactor);
             Clear();
-        }
-        
-        private void ApplyKnockback(GameObject interactor)
-        {
-            if (!interactor.TryGetComponent(out IKnockbackable knockbackable)) return;
-            
-            var direction = (interactor.transform.position - transform.position).normalized;
-            knockbackable.ApplyKnockback(direction * Config.KnockBackStrength, Config.KnockBackDuration);
-        }
-
-        private void ApplyDamage(GameObject interactor)
-        {
-            if (!interactor.TryGetComponent(out IDamagable damagable)) return;
-            
-            damagable.TakeDamage(Config.Damage);
         }
     }
 }
