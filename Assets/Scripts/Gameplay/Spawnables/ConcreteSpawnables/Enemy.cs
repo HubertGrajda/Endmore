@@ -7,21 +7,14 @@ namespace Scripts.Gameplay
     {
         [SerializeField] private Animator animator;
         
-        private GameplayManager _gameplayManager; 
         private bool _isActive;
         
         private static readonly int LaunchAttackAnimation = Animator.StringToHash("Launch");
         
-        public override void Initialize(SpawnableConfig config)
-        {
-            base.Initialize(config);
-            _gameplayManager = GameplayManager.Instance;
-        }
-        
         public override void OnSpawn()
         {
             base.OnSpawn();
-            _gameplayManager.OnLevelStarted += OnLevelStarted;
+            GameplayManager.OnLevelStarted += OnLevelStarted;
         }
 
         public override void OnDespawn()
@@ -29,7 +22,7 @@ namespace Scripts.Gameplay
             base.OnDespawn();
             
             StopAllCoroutines();
-            _gameplayManager.OnLevelStarted -= OnLevelStarted;
+            GameplayManager.OnLevelStarted -= OnLevelStarted;
         }
 
         private void OnLevelStarted(int _)

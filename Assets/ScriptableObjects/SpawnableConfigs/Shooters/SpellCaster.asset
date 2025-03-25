@@ -15,8 +15,9 @@ MonoBehaviour:
   <Sprite>k__BackingField: {fileID: 1604015474, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
   <Color>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
   <ScaleFactor>k__BackingField: 1
-  <PlacementConditions>k__BackingField: []
+  <PlacementConditions>k__BackingField:
+  - {fileID: 11400000, guid: 6a1adb15abba74e43a39109cf3b161d8, type: 2}
   <GameStateConditions>k__BackingField: []
   <Prefab>k__BackingField: {fileID: 8121558539088450323, guid: 93aa4b8688cc5a5459a4e01e1b14005a, type: 3}
-  <AttackCooldown>k__BackingField: 4
+  <AttackCooldown>k__BackingField: 5
   <AttackStrategy>k__BackingField: {fileID: 11400000, guid: d99475db77477ae41a8cdf184780fc10, type: 2}

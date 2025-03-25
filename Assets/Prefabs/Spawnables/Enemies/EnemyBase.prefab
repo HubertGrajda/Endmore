@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8043346483862988635}
   - component: {fileID: 8121558539088450323}
   m_Layer: 6
-  m_Name: ProjectileLauncher
+  m_Name: EnemyBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2fdc409f73347eb95e649c9a415eed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 1030973281210005418}
+  <SpriteRenderer>k__BackingField: {fileID: 1030973281210005418}
   animator: {fileID: 0}
 --- !u!1 &5868657202827903470
 GameObject:

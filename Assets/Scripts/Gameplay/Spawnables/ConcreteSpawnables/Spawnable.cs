@@ -1,34 +1,35 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Scripts.Gameplay
 {
     public abstract class Spawnable : MonoBehaviour
     {
-        [SerializeField] protected SpriteRenderer spriteRenderer;
-        
-        private GameplayManager _gameplayManager;
-        
+        [field: SerializeField] public SpriteRenderer SpriteRenderer { get; private set; }
+
+        protected GameplayManager GameplayManager { get; private set; }
+
         public virtual void Initialize(SpawnableConfig config)
         {
             transform.localScale *= config.ScaleFactor;
             
-            if (spriteRenderer && config.Sprite)
+            if (SpriteRenderer && config.Sprite)
             {
-                spriteRenderer.sprite = config.Sprite;
-                spriteRenderer.color = config.Color;
+                SpriteRenderer.sprite = config.Sprite;
+                SpriteRenderer.color = config.Color;
             }
 
-            _gameplayManager = GameplayManager.Instance;
+            GameplayManager = GameplayManager.Instance;
         }
 
         public virtual void OnSpawn()
         {
-            _gameplayManager.OnLevelClear += Clear;
+            GameplayManager.OnLevelClear += Clear;
         }
         
         public virtual void OnDespawn()
         {
-            _gameplayManager.OnLevelClear -= Clear;
+            GameplayManager.OnLevelClear -= Clear;
         }
         
         public abstract void Clear();

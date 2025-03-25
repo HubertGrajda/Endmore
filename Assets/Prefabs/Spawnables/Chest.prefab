@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4815981c4424e989c01f857c35757e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 1030973281210005418}
+  <SpriteRenderer>k__BackingField: {fileID: 1030973281210005418}
   contentSlots:
   - {fileID: 7781226345293054414}
   - {fileID: 2117188444110533951}

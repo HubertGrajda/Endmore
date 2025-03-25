@@ -32,7 +32,7 @@ namespace Scripts.Gameplay
         {
             base.OnDespawn();
             _isOpened = false;
-            spriteRenderer.sprite = Config.Sprite;
+            SpriteRenderer.sprite = Config.Sprite;
         }
 
         private void Open()
@@ -53,7 +53,7 @@ namespace Scripts.Gameplay
                 spawnableInstance.transform.position = slot.position;
             }
             
-            spriteRenderer.sprite = Config.ChestOpenedSprite;
+            SpriteRenderer.sprite = Config.ChestOpenedSprite;
             onChestOpened?.Invoke();
             _isOpened = true;
         }

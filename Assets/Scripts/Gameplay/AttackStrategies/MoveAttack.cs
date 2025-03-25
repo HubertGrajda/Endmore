@@ -14,12 +14,8 @@ namespace Scripts.Gameplay
             enemy.StartCoroutine(AttackCoroutine(enemy));
         }
 
-        private Vector3 GetPosition(Enemy launcher)
-        {
-            var vectors = directionsSet.GetVectors();
-            var drawnDirection = (Vector3)vectors[Random.Range(0, vectors.Count)];
-            return launcher.transform.position - range * drawnDirection;
-        }
+        private Vector3 GetPosition(Enemy enemy) => 
+            enemy.transform.position + range * (Vector3)directionsSet.GetRandomVector();
         
         private IEnumerator AttackCoroutine(Enemy launcher)
         {
@@ -36,6 +32,7 @@ namespace Scripts.Gameplay
         {
             var timer = 0f;
             var startPosition = launcher.transform.position;
+            launcher.SpriteRenderer.flipX = startPosition.x - position.x > 0;
             
             while (timer <= duration)
             {

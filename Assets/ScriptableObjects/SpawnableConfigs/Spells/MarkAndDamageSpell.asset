@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd497c3056ba4f20ad0b2bd7292aea6b, type: 3}
   m_Name: MarkAndDamageSpell
   m_EditorClassIdentifier: 
-  <Sprite>k__BackingField: {fileID: 1795507151, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
-  <Color>k__BackingField: {r: 0.7283988, g: 0.2588235, b: 1, a: 1}
+  <Sprite>k__BackingField: {fileID: 1672001090, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
+  <Color>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
   <ScaleFactor>k__BackingField: 1
   <Prefab>k__BackingField: {fileID: 7720016773412487937, guid: 3b3c29933c2a59e469bb70d17c00011e, type: 3}
+  <CastingSprite>k__BackingField: {fileID: 1795507151, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
   <CastingTime>k__BackingField: 2
   <LaunchingDuration>k__BackingField: 1
   <Damage>k__BackingField: 2

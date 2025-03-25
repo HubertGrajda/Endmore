@@ -19,6 +19,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 569611951c9b5474196b6a5d5dd38577, type: 2}
   - {fileID: 11400000, guid: 349baeb44485bda4ead29e2a04ed61c2, type: 2}
   <GameStateConditions>k__BackingField: []
-  <Prefab>k__BackingField: {fileID: 8121558539088450323, guid: 93aa4b8688cc5a5459a4e01e1b14005a, type: 3}
-  <AttackCooldown>k__BackingField: 4
+  <Prefab>k__BackingField: {fileID: 7213427006958260806, guid: c6b6da15e2aef3140a72ad94c12ff04a, type: 3}
+  <AttackCooldown>k__BackingField: 2
   <AttackStrategy>k__BackingField: {fileID: 11400000, guid: a05dcf14faaf6694da8661ce1b1636a7, type: 2}
