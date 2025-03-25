@@ -6,6 +6,8 @@ namespace Scripts.Gameplay
     {
         [SerializeField] protected SpriteRenderer spriteRenderer;
         
+        private GameplayManager _gameplayManager;
+        
         public virtual void Initialize(SpawnableConfig config)
         {
             transform.localScale *= config.ScaleFactor;
@@ -15,14 +17,18 @@ namespace Scripts.Gameplay
                 spriteRenderer.sprite = config.Sprite;
                 spriteRenderer.color = config.Color;
             }
+
+            _gameplayManager = GameplayManager.Instance;
         }
 
         public virtual void OnSpawn()
         {
+            _gameplayManager.OnLevelClear += Clear;
         }
         
         public virtual void OnDespawn()
         {
+            _gameplayManager.OnLevelClear -= Clear;
         }
         
         public abstract void Clear();

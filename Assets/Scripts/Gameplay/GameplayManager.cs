@@ -12,6 +12,7 @@ namespace Scripts.Gameplay
         
         [SerializeField] private float restartDelayAfterDeath = 1f;
         
+        public event Action OnLevelClear;
         public event Action<int> OnLevelStarted;
         public event Action<int> OnCollisionsNumberChanged;
         
@@ -132,6 +133,7 @@ namespace Scripts.Gameplay
         {
             _scoreManager.ResetScore();
             levelGenerator.ClearLevel();
+            OnLevelClear?.Invoke();
         }
 
         public void IncrementCollisionsNumber() => SetCollisionsNumber(CollisionsNumber + 1);

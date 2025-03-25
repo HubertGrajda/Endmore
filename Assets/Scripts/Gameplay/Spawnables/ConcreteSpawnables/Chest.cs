@@ -12,7 +12,6 @@ namespace Scripts.Gameplay
         
         private bool _isOpened;
         private PlayerInventory _playerInventory;
-        private readonly List<Spawnable> _spawnedContent = new();
         
         public bool CanInteract => !_isOpened && (Config.KeyItem == null || _playerInventory.Has(Config.KeyItem));
 
@@ -33,7 +32,6 @@ namespace Scripts.Gameplay
         {
             base.OnDespawn();
             _isOpened = false;
-            _spawnedContent.Clear();
             spriteRenderer.sprite = Config.Sprite;
         }
 
@@ -53,18 +51,11 @@ namespace Scripts.Gameplay
                 
                 var spawnableInstance = SpawnableFactory.SpawnFromPool(spawnable);
                 spawnableInstance.transform.position = slot.position;
-                _spawnedContent.Add(spawnableInstance);
             }
             
             spriteRenderer.sprite = Config.ChestOpenedSprite;
             onChestOpened?.Invoke();
             _isOpened = true;
-        }
-
-        public override void Clear()
-        {
-            _spawnedContent.ForEach(spawnable => spawnable.Clear());
-            base.Clear();
         }
     }
 }

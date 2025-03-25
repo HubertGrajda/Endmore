@@ -19,7 +19,6 @@ namespace Scripts.Gameplay
         
         private HashSet<Vector3Int> _positionsWithSpawnAllowed = new();
         
-        private readonly HashSet<Spawnable> _spawnedObjects = new();
         private readonly HashSet<Vector3Int> _reservedPositions = new();
         
         private const int PLAYER_SAFE_RANGE = 1;
@@ -126,7 +125,6 @@ namespace Scripts.Gameplay
             var spawnableInstance = SpawnableFactory.SpawnFromPool(spawnableConfig);
             spawnableInstance.transform.position = worldPosition;
             
-            _spawnedObjects.Add(spawnableInstance);
             ReservePositionsForSpawnedSpawnable(tilePosition, spawnableConfig);
         }
         
@@ -145,14 +143,7 @@ namespace Scripts.Gameplay
 
         public void ClearLevel()
         {
-            var activeSpawnedObjects = _spawnedObjects
-                .Where(spawnable => spawnable != null && spawnable.gameObject.activeInHierarchy)
-                .ToList();
-            
-            activeSpawnedObjects.ForEach(spawnable => spawnable.Clear());
-            
             _reservedPositions.Clear();
-            _spawnedObjects.Clear();
         }
 
         private bool TryGetFreePositions(out List<Vector3Int> freePositions)
