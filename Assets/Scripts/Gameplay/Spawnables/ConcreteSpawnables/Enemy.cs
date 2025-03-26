@@ -3,13 +3,15 @@ using UnityEngine;
 
 namespace Scripts.Gameplay
 {
-    public class Enemy : Spawnable<EnemyConfig>
+    public class Enemy : Spawnable<EnemyConfig>, IDamageProvider
     {
         [SerializeField] private Animator animator;
         
         private bool _isActive;
         
         private static readonly int LaunchAttackAnimation = Animator.StringToHash("Launch");
+        
+        public int DamageAmount => Config.ContactDamage;
         
         public override void OnSpawn()
         {

@@ -6,8 +6,8 @@ namespace Scripts.Gameplay
     public class EnemyConfig : TileBasedSpawnableConfig<Enemy>
     {
         [field: Header("Enemy Attack Settings")]
+        [field: SerializeField] public int ContactDamage { get; private set; }
         [field: SerializeField] public float AttackCooldown { get; private set; }
-        
         [field: SerializeField] public AttackStrategy AttackStrategy { get; private set; }
     }
 }
