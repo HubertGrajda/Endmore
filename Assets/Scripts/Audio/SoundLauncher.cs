@@ -1,21 +1,17 @@
-﻿using UnityEngine;
+﻿using Reflex.Attributes;
+using UnityEngine;
 
 namespace Scripts.Audio
 {
     public class SoundLauncher : MonoBehaviour
     {
-        private AudioManager _audioManager;
+        [Inject] private IAudioService _audioService;
         
-        private void Start()
-        {
-            _audioManager = AudioManager.Instance;
-        }
-
         public void PlaySound(AudioClip clip)
         {
-            if (!_audioManager || !clip) return;
+            if (!clip) return;
             
-            _audioManager.PlayOneShot(clip);
+            _audioService.PlayOneShot(clip);
         }
     }
 }

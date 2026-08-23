@@ -4,7 +4,7 @@ using UnityEngine.Audio;
 
 namespace Scripts.Audio
 {
-    public class AudioManager : Singleton<AudioManager>
+    public class AudioService : MonoService<IAudioService>, IAudioService
     {
         [SerializeField] private AudioMixer mainAudioMixer;
         [SerializeField] private AudioSource oneShotAudioSource;

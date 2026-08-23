@@ -1,3 +1,4 @@
+using Reflex.Attributes;
 using Scripts.Audio;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +10,8 @@ namespace Scripts.UI
     {
         [SerializeField] private string volumeParameterName;
         
-        private AudioManager _audioManager;
+        [Inject] private IAudioService _audioService;
+        
         private Slider _slider;
         
         private const float MIN_VOLUME = 0f;
@@ -27,12 +29,11 @@ namespace Scripts.UI
         {
             if (!_isValid) return;
             
-            _audioManager = AudioManager.Instance;
             RefreshSlider();
         }
 
         private void RefreshSlider() => 
-            _slider.value = _audioManager.GetVolume(volumeParameterName);
+            _slider.value = _audioService.GetVolume(volumeParameterName);
         
         private void InitSlider()
         {
@@ -54,7 +55,7 @@ namespace Scripts.UI
 
         private void ChangeVolume(float value)
         {
-            _audioManager.SetVolume(volumeParameterName, value);
+            _audioService.SetVolume(volumeParameterName, value);
             PlayerPrefs.SetFloat(volumeParameterName, value);
         }
         
