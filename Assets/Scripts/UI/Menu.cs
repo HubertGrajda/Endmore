@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Reflex.Attributes;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -11,7 +12,8 @@ namespace Scripts.UI
         protected bool IsShown { get; private set; }
         protected InputManager InputManager { get; private set; }
 
-        private GameManager _gameManager;
+        [Inject] private IPauseService _pauseService;
+        
         private EventSystem _eventSystem;
 
         private Canvas _canvas;
@@ -24,7 +26,6 @@ namespace Scripts.UI
         protected virtual void Start()
         {
             InputManager = InputManager.Instance;
-            _gameManager = GameManager.Instance;
             _eventSystem = EventSystem.current;
         }
         
@@ -46,14 +47,14 @@ namespace Scripts.UI
         private void OnShow()
         {
             _eventSystem.SetSelectedGameObject(selectableEntry.gameObject);
-            _gameManager.PauseGame();
+            _pauseService.AddPauseSource(this);
             InputManager.PlayerInputs.Disable();
         }
         
         private void OnHide()
         {
             _eventSystem.SetSelectedGameObject(null);
-            _gameManager.ResumeGame();
+            _pauseService.RemovePauseSource(this);
             InputManager.PlayerInputs.Enable();
         }
     }

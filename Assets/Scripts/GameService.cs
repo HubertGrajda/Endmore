@@ -2,11 +2,10 @@
 using Newtonsoft.Json;
 using Scripts.Gameplay;
 using Scripts.SaveSystem;
-using UnityEngine;
 
 namespace Scripts
 {
-    public class GameManager : Singleton<GameManager>, ISaveable<GameData>
+    public class GameService : MonoService<IGameService>, ISaveable<GameData>, IGameService
     {
         public List<LevelAttemptData> LevelToAttemptsData { get; private set; } = new();
         public string PlayerName { get; private set; }
@@ -30,18 +29,8 @@ namespace Scripts
             LevelToAttemptsData = levelToAttemptsData;
             PlayerName = playerName;
         }
-
-        public void PauseGame()
-        {
-            Time.timeScale = 0f;
-        }
-        
-        public void ResumeGame()
-        {
-            Time.timeScale = 1f;
-        }
     }
-    
+
     public class GameData : SaveData
     {
         [JsonProperty] private List<LevelAttemptData> _levelToAttemptsData;

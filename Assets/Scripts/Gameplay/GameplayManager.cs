@@ -1,4 +1,5 @@
 using System;
+using Reflex.Attributes;
 using Scripts.Player;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ namespace Scripts.Gameplay
         public int CurrentLevel { get; private set; }
         
         private ScoreManager _scoreManager;
-        private GameManager _gameManager;
+        [Inject] private IGameService _gameService;
         
         private PlayerController _playerController;
         private PlayerHealthSystem _playerHealthSystem;
@@ -35,7 +36,6 @@ namespace Scripts.Gameplay
         private void Start()
         {
             _scoreManager = ScoreManager.Instance;
-            _gameManager = GameManager.Instance;
             _playerController = PlayerController.Instance;
             _playerHealthSystem = _playerController.PlayerHealthSystem;
             
@@ -116,11 +116,11 @@ namespace Scripts.Gameplay
             
             var attemptData = new LevelAttemptData(
                 CurrentLevel,
-                _gameManager.PlayerName,
+                _gameService.PlayerName,
                 CollisionsNumber,
                 GameplayTimer.ElapsedTime);
             
-            _gameManager.AddAttempt(attemptData);
+            _gameService.AddAttempt(attemptData);
         }
         
         private void OnScoreTargetAchieved(int obj)

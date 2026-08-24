@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Reflex.Attributes;
 using Scripts.Gameplay;
 using UnityEngine;
 
@@ -11,16 +12,11 @@ namespace Scripts.UI
         [SerializeField] private Transform recordsContainer;
         [SerializeField] private LevelAttemptVisualizer levelAttemptPrefab;
 
-        private GameManager _gameManager;
-
-        private void Awake()
-        {
-            _gameManager = GameManager.Instance;
-        }
+        [Inject] private IGameService _gameService;
 
         private void Start()
         {
-            var allAttempts = _gameManager.LevelToAttemptsData
+            var allAttempts = _gameService.LevelToAttemptsData
                 .OrderBy(y => y)
                 .ToList();
 

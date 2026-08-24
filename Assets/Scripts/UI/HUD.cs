@@ -1,4 +1,5 @@
 using System;
+using Reflex.Attributes;
 using Scripts.Gameplay;
 using TMPro;
 using UnityEngine;
@@ -13,9 +14,10 @@ namespace Scripts.UI
         [SerializeField] private TMP_Text collisionsText;
         [SerializeField] private TMP_Text levelText;
 
+        [Inject] private IGameService _gameService;
+        
         private ScoreManager _scoreManager;
         private GameplayManager _gameplayManager;
-        private GameManager _gameManager;
     
         private const string TIMER_DISPLAY_FORMAT = @"mm\:ss";
     
@@ -23,7 +25,6 @@ namespace Scripts.UI
         {
             _scoreManager = ScoreManager.Instance;
             _gameplayManager = GameplayManager.Instance;
-            _gameManager = GameManager.Instance;
             
             Refresh();
             AddListeners();
@@ -37,7 +38,7 @@ namespace Scripts.UI
             SetText(timerText, _gameplayManager.GameplayTimer.ElapsedTime.ToString(TIMER_DISPLAY_FORMAT));
             SetText(collisionsText, _gameplayManager.CollisionsNumber.ToString());
             SetText(levelText, _gameplayManager.CurrentLevel.ToString());
-            SetText(playerNameText, _gameManager.PlayerName);
+            SetText(playerNameText, _gameService.PlayerName);
         }
 
         private void AddListeners()
