@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
+using Reflex.Attributes;
 using Scripts.Gameplay;
 using Scripts.SaveSystem;
 
@@ -10,6 +11,13 @@ namespace Scripts
         public List<LevelAttemptData> LevelToAttemptsData { get; private set; } = new();
         public string PlayerName { get; private set; }
 
+        [Inject] private ISaveService _saveService;
+
+        public void Start()
+        {
+            _saveService.Load();
+        }
+
         public void ChangePlayerName(string newName)
         {
             PlayerName = newName;
@@ -18,6 +26,7 @@ namespace Scripts
         public void AddAttempt(LevelAttemptData attemptData)
         {
             LevelToAttemptsData.Add(attemptData);
+            _saveService.Save();
         }
 
         public SaveData Save() => new GameData(LevelToAttemptsData, PlayerName);
