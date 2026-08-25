@@ -1,4 +1,5 @@
-﻿using Scripts.CameraManagement;
+﻿using Reflex.Attributes;
+using Scripts.CameraManagement;
 using UnityEngine;
 
 namespace Scripts.UI
@@ -8,15 +9,10 @@ namespace Scripts.UI
         [SerializeField] private Transform target;
         [SerializeField] private float duration;
         
-        private CameraManager _cameraManager;
+        [Inject] private ICameraService _cameraManager;
         
         protected override bool IsValid => _cameraManager != null && target != null;
         
-        protected override void Prepare()
-        {
-            _cameraManager = CameraManager.Instance;
-        }
-
         protected override void OnClick()
         {
             _cameraManager.MoveCamera(target.position, duration);

@@ -21,7 +21,9 @@ namespace Scripts.Gameplay
         public int CurrentLevel { get; private set; }
         
         private ScoreManager _scoreManager;
+        
         [Inject] private IGameService _gameService;
+        [Inject] private IScenesService _scenesService;
         
         private PlayerController _playerController;
         private PlayerHealthSystem _playerHealthSystem;
@@ -107,7 +109,7 @@ namespace Scripts.Gameplay
         
         private void RestartGameplay()
         {
-            ScenesManager.Instance.ReloadActiveScene();
+            _scenesService.ReloadActiveScene();
         }
 
         private void SaveAttempt()

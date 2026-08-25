@@ -25,7 +25,7 @@ namespace Scripts.Gameplay
             
             var spawnableInstance = Instantiate(Prefab, transform);
             var container = spawnableInstance.gameObject.scene.GetSceneContainer();
-            GameObjectInjector.InjectObject(spawnableInstance.gameObject, container);
+            GameObjectInjector.InjectRecursive(spawnableInstance.gameObject, container);
             
             spawnableInstance.gameObject.SetActive(false);
             spawnableInstance.name = Prefab.name;

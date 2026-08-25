@@ -8,9 +8,10 @@ namespace Scripts
         public InputActions.GameplayUIActions UIActions { get; private set; }
         
         private InputActions _inputs;
-        private ScenesManager _scenesManager;
+        
+        [Inject] private IScenesService _scenesManager;
 
-        protected override void Awake()
+        protected void Awake()
         {
             _inputs = new InputActions();
             UIActions = _inputs.GameplayUI;
@@ -19,8 +20,6 @@ namespace Scripts
 
         private void Start()
         {
-            _scenesManager = ScenesManager.Instance;
-            
             AddListeners();
         }
         

@@ -1,3 +1,4 @@
+using Reflex.Attributes;
 using Scripts.UI;
 using UnityEngine;
 
@@ -7,14 +8,9 @@ namespace Scripts
     {
         [SerializeField] private string sceneName;
         
-        private ScenesManager _scenesManager;
+        [Inject] private IScenesService _scenesManager;
 
         protected override bool IsValid => _scenesManager != null && !string.IsNullOrWhiteSpace(sceneName);
-
-        protected override void Prepare()
-        {
-            _scenesManager = ScenesManager.Instance;
-        }
 
         protected override void OnClick()
         {

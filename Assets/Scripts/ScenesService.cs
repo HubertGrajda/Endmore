@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Scripts
 {
-    public class ScenesManager : Singleton<ScenesManager>
+    public class ScenesService : MonoService<IScenesService>, IScenesService
     {
         [SerializeField] private Image fader;
         [SerializeField] private float fadeDuration = 1f;

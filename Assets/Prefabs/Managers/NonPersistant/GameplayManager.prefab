@@ -58,6 +58,7 @@ MonoBehaviour:
     <SpawnableConfigs>k__BackingField:
     - {fileID: 11400000, guid: b746ca2c38f93c94ba09c06b380a9daa, type: 2}
     - {fileID: 11400000, guid: 5835417c8c5809348b96e4081054c806, type: 2}
+    - {fileID: 11400000, guid: 5a43b21fbfd46fe4fb555174171f2c49, type: 2}
   - <ObjectsCount>k__BackingField: 10
     <SpawnableConfigs>k__BackingField:
     - {fileID: 11400000, guid: 8048504136d6b85448d7cf461b62b521, type: 2}
@@ -65,6 +66,15 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 377140697e9954645921a9eea348ac01, type: 2}
     - {fileID: 11400000, guid: f0e58d01a8074a247b02a9213d790400, type: 2}
     - {fileID: 11400000, guid: e53e5cd71df0da44791bf9c6d65f2ac5, type: 2}
+    - {fileID: 11400000, guid: 4912c678432a31c4da61c0ec66d19b46, type: 2}
+    - {fileID: 11400000, guid: 05c9dc89af8d0454eb95f3244ad0be8a, type: 2}
+  - <ObjectsCount>k__BackingField: 1
+    <SpawnableConfigs>k__BackingField:
+    - {fileID: 11400000, guid: d86fa2c11a117cc44a0321cd51c6a80b, type: 2}
+    - {fileID: 11400000, guid: 0c510e6cf8451d04883b674bb5647ddd, type: 2}
+  - <ObjectsCount>k__BackingField: 1
+    <SpawnableConfigs>k__BackingField:
+    - {fileID: 11400000, guid: 43a56ba58275aa440b78bea00ecd1e46, type: 2}
 --- !u!1 &1221424783096835691
 GameObject:
   m_ObjectHideFlags: 0
@@ -4132,7 +4142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <GameplayTimer>k__BackingField: {fileID: 5576934298114566611}
   levelGenerator: {fileID: 2998694427210039927}
-  pointsPercentageToPassTheLevel: 0.75
+  restartDelayAfterDeath: 1
 --- !u!1 &8879403262746062094
 GameObject:
   m_ObjectHideFlags: 0

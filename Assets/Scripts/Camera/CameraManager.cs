@@ -1,13 +1,13 @@
 using System.Collections;
+using Reflex.Attributes;
 using UnityEngine;
 
 namespace Scripts.CameraManagement
 {
-    public class CameraManager : Singleton<CameraManager>
+    public class CameraManager : MonoService<ICameraService>, ICameraService
     {
-        public Camera Camera { get; private set; }
-
-        private ScenesManager _scenesManager;
+        [Inject] private IScenesService _scenesManager;
+        
         private Coroutine _movementCoroutine;
 
         private int _currentWidth = NATIVE_WIDTH;
@@ -20,11 +20,11 @@ namespace Scripts.CameraManagement
         private const float NATIVE_ASPECT_RATIO = (float)NATIVE_WIDTH / NATIVE_HEIGHT;
         private const float MIN_ASPECT_RATIO = 4f / 3f;
         
+        private Camera _camera;
+        public Camera Camera => _camera != null ? _camera : _camera = Camera.main;
+        
         private void Start()
         {
-            _scenesManager = ScenesManager.Instance;
-            Camera = Camera.main;
-            
             if (!Camera) return;
             
             _orthographicSize = Camera.orthographicSize;
@@ -65,8 +65,6 @@ namespace Scripts.CameraManagement
         
         private void OnSceneChanged()
         {
-            Camera = Camera.main;
-
             if (!Camera) return;
             
             _orthographicSize = Camera.orthographicSize;
@@ -107,5 +105,12 @@ namespace Scripts.CameraManagement
         {
             RemoveListeners();
         }
+    }
+
+    public interface ICameraService
+    {
+        public Camera Camera { get; }
+        
+        void MoveCamera(Vector3 targetPosition, float duration);
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Reflex.Attributes;
+using UnityEngine;
 
 namespace Scripts.Gameplay
 {
@@ -6,12 +7,7 @@ namespace Scripts.Gameplay
     {
         [SerializeField] private string sceneName;
         
-        private ScenesManager _scenesManager;
-
-        private void Awake()
-        {
-            _scenesManager = ScenesManager.Instance;
-        }
+        [Inject] private IScenesService _scenesManager;
 
         public void Interact(GameObject interactor)
         {

@@ -58,6 +58,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   servicesPrefabs:
-  - {fileID: 3481069048194749514, guid: 4c200be95a1d4d04c9f32f38ac419253, type: 3}
+  - {fileID: 8057448286037269721, guid: 64196ded47d1180488e226aaa7d6cf20, type: 3}
   - {fileID: 17109732154436761, guid: 0b0e2c1f08434294796389da7760636c, type: 3}
   - {fileID: 8249341697884644250, guid: 25dd76908422ba0459540d71c6850157, type: 3}
+  - {fileID: 6271023695219528999, guid: 9f893cb5e3fc79b4497a5525aed5673f, type: 3}
+  - {fileID: 7980004012515821748, guid: 8d32f75989beca941a850a1f4fe8fd70, type: 3}
