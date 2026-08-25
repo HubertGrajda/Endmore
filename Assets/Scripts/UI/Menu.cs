@@ -10,7 +10,7 @@ namespace Scripts.UI
         [SerializeField] private Selectable selectableEntry;
         
         protected bool IsShown { get; private set; }
-        protected InputManager InputManager { get; private set; }
+        [Inject] protected IInputService InputService { get; private set; }
 
         [Inject] private IPauseService _pauseService;
         
@@ -25,7 +25,6 @@ namespace Scripts.UI
         
         protected virtual void Start()
         {
-            InputManager = InputManager.Instance;
             _eventSystem = EventSystem.current;
         }
         
@@ -48,14 +47,14 @@ namespace Scripts.UI
         {
             _eventSystem.SetSelectedGameObject(selectableEntry.gameObject);
             _pauseService.AddPauseSource(this);
-            InputManager.PlayerInputs.Disable();
+            InputService.GameplayActions.Disable();
         }
         
         private void OnHide()
         {
             _eventSystem.SetSelectedGameObject(null);
             _pauseService.RemovePauseSource(this);
-            InputManager.PlayerInputs.Enable();
+            InputService.GameplayActions.Enable();
         }
     }
 }

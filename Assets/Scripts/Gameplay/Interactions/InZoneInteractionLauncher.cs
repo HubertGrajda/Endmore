@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using Reflex.Attributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -16,13 +17,15 @@ namespace Scripts.Gameplay
         [SerializeField] private UnityEvent onZoneEntered;
         [SerializeField] private UnityEvent onZoneLeft;
         
+        [Inject] private IInputService _inputService;
+        
         private InputAction _interactionInput;
         private GameObject _triggerObject;
         private const string PLAYER_TAG = "Player";
         
         private void Start()
         {
-            _interactionInput = InputManager.Instance.PlayerInputs.Interact;
+            _interactionInput = _inputService.GameplayActions.Interact;
         }
 
         private void OnTriggerEnter2D(Collider2D other)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Reflex.Attributes;
 using Scripts.Gameplay;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -27,6 +28,8 @@ namespace Scripts.Player
         private Coroutine _knockbackCoroutine;
         private Coroutine _speedUpCoroutine;
         
+        [Inject] private IInputService _inputService;
+        
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
@@ -36,7 +39,7 @@ namespace Scripts.Player
         private void Start()
         {
             _currentMovementSpeed = movementSpeed;
-            _movementInputAction = InputManager.Instance.PlayerInputs.Move;
+            _movementInputAction = _inputService.GameplayActions.Move;
             
             if (TryGetComponent(out _playerHealthSystem))
             {

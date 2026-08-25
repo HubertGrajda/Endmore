@@ -1,20 +1,20 @@
-﻿namespace Scripts
+﻿using Reflex.Attributes;
+
+namespace Scripts
 {
-    public class InputManager : Singleton<InputManager>
+    public class InputService : MonoService<IInputService>, IInputService
     {
-        public InputActions.PlayerActions PlayerInputs { get; private set; }
-        public InputActions.GameplayUIActions GameplayUIInputs { get; private set; }
+        public InputActions.PlayerActions GameplayActions { get; private set; }
+        public InputActions.GameplayUIActions UIActions { get; private set; }
         
         private InputActions _inputs;
         private ScenesManager _scenesManager;
 
         protected override void Awake()
         {
-            base.Awake();
-            
             _inputs = new InputActions();
-            GameplayUIInputs = _inputs.GameplayUI;
-            PlayerInputs = _inputs.Player;
+            UIActions = _inputs.GameplayUI;
+            GameplayActions = _inputs.Player;
         }
 
         private void Start()
@@ -55,5 +55,11 @@
         {
            _inputs?.Enable();
         }
+    }
+
+    public interface IInputService
+    {
+        InputActions.PlayerActions GameplayActions { get; }
+        InputActions.GameplayUIActions UIActions { get; }
     }
 }

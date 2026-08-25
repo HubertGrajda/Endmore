@@ -33,7 +33,7 @@ namespace Scripts.UI
 
         private void ProcessInput(InputAction.CallbackContext obj)
         {
-            if (!InputManager.GameplayUIInputs.enabled) return;
+            if (!InputService.UIActions.enabled) return;
             
             ToggleMenu(!IsShown);
         }
