@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Scripts.UI
 {
-    public class FontManager : Singleton<FontManager>
+    public class FontService : MonoService<IFontService>, IFontService
     {
         [SerializeField] private TMP_FontAsset defaultFont;
         [SerializeField] private List<TMP_FontAsset> availableFonts;
@@ -60,5 +60,13 @@ namespace Scripts.UI
             
             return fontAsset != null;
         }
+    }
+
+    public interface IFontService
+    {
+        TMP_FontAsset CurrentFont { get; }
+        void AttachFontHandler(FontHandler fontHandler);
+        void DetachFontHandler(FontHandler fontHandler);
+        void SetFont(TMP_FontAsset fontAsset);
     }
 }

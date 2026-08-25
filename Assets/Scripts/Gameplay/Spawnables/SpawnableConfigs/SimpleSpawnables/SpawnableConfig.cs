@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Reflex.Extensions;
+using Reflex.Injectors;
+using UnityEngine;
 
 namespace Scripts.Gameplay
 {
@@ -39,6 +41,8 @@ namespace Scripts.Gameplay
             }
             
             var spawnableInstance = Instantiate(Prefab, transform);
+            var container = spawnableInstance.gameObject.scene.GetSceneContainer();
+            GameObjectInjector.InjectRecursive(spawnableInstance.gameObject, container);
             
             spawnableInstance.gameObject.SetActive(false);
             spawnableInstance.name = Prefab.name;

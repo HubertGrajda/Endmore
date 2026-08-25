@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Reflex.Attributes;
+using Reflex.Extensions;
+using Reflex.Injectors;
 using Scripts.Gameplay;
 using UnityEngine;
 
@@ -34,6 +36,9 @@ namespace Scripts.UI
             foreach (var levelToAttemptsData in allAttempts)
             {
                 var recordInstance = Instantiate(levelAttemptPrefab, recordsContainer);
+                var container = recordInstance.gameObject.scene.GetSceneContainer();
+                GameObjectInjector.InjectRecursive(recordInstance.gameObject, container);
+                
                 recordInstance.VisualizeAttempt(levelToAttemptsData);
             }
         }

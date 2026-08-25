@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Reflex.Attributes;
+using TMPro;
 using UnityEngine;
 
 namespace Scripts.UI
@@ -7,22 +8,22 @@ namespace Scripts.UI
     {
         [SerializeField] private TMP_FontAsset fontAsset;
         
-        private FontManager _fontManager;
+        [Inject] private IFontService _fontService;
+        
         private TMP_Text[] _buttonTexts;
 
-        protected override bool IsValid => fontAsset != null && _fontManager != null; 
+        protected override bool IsValid => fontAsset != null && _fontService != null; 
 
         protected override void Prepare()
         {
-            _fontManager = FontManager.Instance;
             PrepareButtonTexts();
         }
         
         protected override void OnClick()
         {
-            if (_fontManager.CurrentFont == fontAsset) return;
+            if (_fontService.CurrentFont == fontAsset) return;
             
-            _fontManager.SetFont(fontAsset);
+            _fontService.SetFont(fontAsset);
         }
 
         private void PrepareButtonTexts()

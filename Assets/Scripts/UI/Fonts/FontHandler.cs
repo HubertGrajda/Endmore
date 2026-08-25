@@ -1,3 +1,5 @@
+using System;
+using Reflex.Attributes;
 using TMPro;
 using UnityEngine;
 
@@ -7,14 +9,18 @@ namespace Scripts.UI
     [DisallowMultipleComponent]
     public class FontHandler : MonoBehaviour
     {
+        [Inject] private IFontService _fontService;
+        
         private TMP_Text _text;
-        private FontManager _fontManager;
     
         private void Awake()
         {
             _text = GetComponent<TMP_Text>();
-            _fontManager = FontManager.Instance;
-            _fontManager.AttachFontHandler(this);
+        }
+
+        private void Start()
+        {
+            _fontService.AttachFontHandler(this);
         }
 
         public void ChangeFont(TMP_FontAsset font)
@@ -22,6 +28,6 @@ namespace Scripts.UI
             _text.font = font;
         }
 
-        private void OnDestroy() => _fontManager.DetachFontHandler(this);
+        private void OnDestroy() => _fontService?.DetachFontHandler(this);
     }
 }
