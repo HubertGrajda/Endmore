@@ -8,13 +8,13 @@ namespace Scripts
     {
         [SerializeField] private string sceneName;
         
-        [Inject] private IScenesService _scenesManager;
+        [Inject] private IScenesService _scenesService;
 
-        protected override bool IsValid => _scenesManager != null && !string.IsNullOrWhiteSpace(sceneName);
+        protected override bool IsValid => _scenesService != null && !string.IsNullOrWhiteSpace(sceneName);
 
         protected override void OnClick()
         {
-            _scenesManager.LaunchSceneByName(sceneName);
+            _scenesService.LaunchSceneByName(sceneName);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Scripts
         
         private InputActions _inputs;
         
-        [Inject] private IScenesService _scenesManager;
+        [Inject] private IScenesService _scenesService;
 
         protected void Awake()
         {
@@ -35,14 +35,14 @@ namespace Scripts
         
         private void AddListeners()
         {
-            _scenesManager.OnSceneChange += OnSceneChange;
-            _scenesManager.OnSceneChanged += OnSceneChanged;
+            _scenesService.OnSceneChange += OnSceneChange;
+            _scenesService.OnSceneChanged += OnSceneChanged;
         }
 
         private void RemoveListeners()
         {
-            _scenesManager.OnSceneChange -= OnSceneChange;
-            _scenesManager.OnSceneChanged -= OnSceneChanged;
+            _scenesService.OnSceneChange -= OnSceneChange;
+            _scenesService.OnSceneChanged -= OnSceneChanged;
         }
         
         private void OnSceneChange()

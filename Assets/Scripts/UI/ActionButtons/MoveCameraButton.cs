@@ -9,13 +9,13 @@ namespace Scripts.UI
         [SerializeField] private Transform target;
         [SerializeField] private float duration;
         
-        [Inject] private ICameraService _cameraManager;
+        [Inject] private ICameraService _cameraService;
         
-        protected override bool IsValid => _cameraManager != null && target != null;
+        protected override bool IsValid => _cameraService != null && target != null;
         
         protected override void OnClick()
         {
-            _cameraManager.MoveCamera(target.position, duration);
+            _cameraService.MoveCamera(target.position, duration);
         }
     }
 }

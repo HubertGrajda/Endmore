@@ -7,13 +7,13 @@ namespace Scripts.Gameplay
     {
         [SerializeField] private string sceneName;
         
-        [Inject] private IScenesService _scenesManager;
+        [Inject] private IScenesService _scenesService;
 
         public void Interact(GameObject interactor)
         {
             if (string.IsNullOrEmpty(sceneName)) return;
             
-            _scenesManager.LaunchSceneByName(sceneName);
+            _scenesService.LaunchSceneByName(sceneName);
         }
     }
 }
