@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Reflex.Extensions;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Scripts.Gameplay
 {
@@ -17,15 +19,14 @@ namespace Scripts.Gameplay
 
         public override bool Met()
         {
-            var gameplayManager = GameplayManager.Instance;
-
-            if (!gameplayManager) return false;
+            var container = SceneManager.GetActiveScene().GetSceneContainer();
+            var gameplayService = container.Resolve<IGameplayService>();
             
             return type switch
             {
-                Type.Equal => gameplayManager.CurrentLevel == level,
-                Type.Above => gameplayManager.CurrentLevel > level,
-                Type.Below => gameplayManager.CurrentLevel < level,
+                Type.Equal => gameplayService.CurrentLevel == level,
+                Type.Above => gameplayService.CurrentLevel > level,
+                Type.Below => gameplayService.CurrentLevel < level,
                 _ => true
             };
         }

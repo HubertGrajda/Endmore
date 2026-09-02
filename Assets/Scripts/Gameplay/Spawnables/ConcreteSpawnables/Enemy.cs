@@ -16,7 +16,7 @@ namespace Scripts.Gameplay
         public override void OnSpawn()
         {
             base.OnSpawn();
-            GameplayManager.OnLevelStarted += OnLevelStarted;
+            GameplayService.OnLevelStarted += OnLevelStarted;
         }
 
         public override void OnDespawn()
@@ -24,7 +24,7 @@ namespace Scripts.Gameplay
             base.OnDespawn();
             
             StopAllCoroutines();
-            GameplayManager.OnLevelStarted -= OnLevelStarted;
+            GameplayService.OnLevelStarted -= OnLevelStarted;
         }
 
         private void OnLevelStarted(int _)

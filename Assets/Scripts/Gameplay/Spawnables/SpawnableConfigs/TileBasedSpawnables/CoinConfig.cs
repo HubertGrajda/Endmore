@@ -7,11 +7,5 @@ namespace Scripts.Gameplay
     {
         [field: Header("Coin Settings")]
         [field: SerializeField] public int CoinValue { get; private set; }
-
-        public override void OnGet(Spawnable spawnable)
-        {
-            base.OnGet(spawnable);
-            ScoreManager.Instance.IncreaseTotalPointsBy(CoinValue);
-        }
     }
 }

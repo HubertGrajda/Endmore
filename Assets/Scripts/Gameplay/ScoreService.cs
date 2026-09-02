@@ -1,56 +1,19 @@
 using System;
-using Scripts.Gameplay;
 using UnityEngine;
 
 namespace Scripts
 {
-    public class ScoreManager : Singleton<ScoreManager>
+    public class ScoreService : IScoreService
     {
-        [SerializeField, Range(0f, 1f)] private float pointsPercentageToPassTheLevel;
-        
         public event Action<int> OnScoreChanged;
         public event Action<int> OnScoreTargetAchieved;
         public event Action<int> OnScoreTargetChanged;
 
         public int CurrentScore { get; private set; }
         public int CurrentScoreTarget { get; private set; }
-        
+
         private int TotalPointsOnLevel { get; set; }
 
-        private GameplayManager _gameplayManager;
-        
-        private void Start()
-        {
-            _gameplayManager = GameplayManager.Instance;
-            
-            if (_gameplayManager.IsDuringGameplay)
-            {
-                OnLevelStarted(_gameplayManager.CurrentLevel);
-            }
-            
-            AddListeners();
-        }
-
-        private void OnDestroy()
-        {
-            RemoveListeners();
-        }
-
-        private void AddListeners()
-        {
-            _gameplayManager.OnLevelStarted += OnLevelStarted;
-        }
-
-        private void RemoveListeners()
-        {
-            _gameplayManager.OnLevelStarted -= OnLevelStarted;
-        }
-
-        private void OnLevelStarted(int _)
-        {
-            SetScoreTarget(pointsPercentageToPassTheLevel);
-        }
-        
         public void AddScore(int score) => SetCurrentScore(CurrentScore + score);
 
         public void IncreaseTotalPointsBy(int points) => TotalPointsOnLevel += points;
@@ -72,7 +35,7 @@ namespace Scripts
         {
             CurrentScore = score;
             OnScoreChanged?.Invoke(CurrentScore);
-            
+
             if (CurrentScoreTarget == 0) return;
             
             if (CurrentScore >= CurrentScoreTarget)
@@ -81,10 +44,25 @@ namespace Scripts
             }
         }
 
-        private void SetScoreTarget(float pointsPercentage)
+        public void SetScoreTarget(float pointsPercentage)
         {
             CurrentScoreTarget = Mathf.RoundToInt(TotalPointsOnLevel * pointsPercentage);
             OnScoreTargetChanged?.Invoke(CurrentScoreTarget);
         }
+    }
+
+    public interface IScoreService
+    {
+        event Action<int> OnScoreChanged;
+        event Action<int> OnScoreTargetChanged;
+        event Action<int> OnScoreTargetAchieved;
+        
+        int CurrentScore { get; }
+        int CurrentScoreTarget { get; }
+
+        void AddScore(int configCoinValue);
+        void IncreaseTotalPointsBy(int configCoinValue);
+        void SetScoreTarget(float pointsPercentageToPassTheLevel);
+        void ResetScore();
     }
 }

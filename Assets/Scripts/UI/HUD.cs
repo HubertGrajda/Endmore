@@ -15,17 +15,13 @@ namespace Scripts.UI
         [SerializeField] private TMP_Text levelText;
 
         [Inject] private IGameService _gameService;
-        
-        private ScoreManager _scoreManager;
-        private GameplayManager _gameplayManager;
+        [Inject] private IScoreService _scoreService;
+        [Inject] private IGameplayService _gameplayManager;
     
         private const string TIMER_DISPLAY_FORMAT = @"mm\:ss";
     
         private void Start()
         {
-            _scoreManager = ScoreManager.Instance;
-            _gameplayManager = GameplayManager.Instance;
-            
             Refresh();
             AddListeners();
         }
@@ -34,7 +30,7 @@ namespace Scripts.UI
 
         private void Refresh()
         {
-            SetText(scoreText, $"{_scoreManager.CurrentScore}/{_scoreManager.CurrentScoreTarget}");
+            SetText(scoreText, $"{_scoreService.CurrentScore}/{_scoreService.CurrentScoreTarget}");
             SetText(timerText, _gameplayManager.GameplayTimer.ElapsedTime.ToString(TIMER_DISPLAY_FORMAT));
             SetText(collisionsText, _gameplayManager.CollisionsNumber.ToString());
             SetText(levelText, _gameplayManager.CurrentLevel.ToString());
@@ -43,8 +39,8 @@ namespace Scripts.UI
 
         private void AddListeners()
         {
-            _scoreManager.OnScoreChanged += OnScoreChanged;
-            _scoreManager.OnScoreTargetChanged += OnScoreTargetChanged;
+            _scoreService.OnScoreChanged += OnScoreChanged;
+            _scoreService.OnScoreTargetChanged += OnScoreTargetChanged;
         
             _gameplayManager.OnCollisionsNumberChanged += OnCollisionsNumberChanged;
             _gameplayManager.OnLevelStarted += OnLevelStarted;
@@ -53,8 +49,8 @@ namespace Scripts.UI
 
         private void RemoveListeners()
         {
-            _scoreManager.OnScoreChanged -= OnScoreChanged;
-            _scoreManager.OnScoreTargetChanged -= OnScoreTargetChanged;
+            _scoreService.OnScoreChanged -= OnScoreChanged;
+            _scoreService.OnScoreTargetChanged -= OnScoreTargetChanged;
         
             _gameplayManager.OnCollisionsNumberChanged -= OnCollisionsNumberChanged;
             _gameplayManager.OnLevelStarted -= OnLevelStarted;
@@ -68,10 +64,10 @@ namespace Scripts.UI
             SetText(levelText, levelNumber.ToString());
 
         private void OnScoreChanged(int score) =>
-            SetText(scoreText, $"{score}/{_scoreManager.CurrentScoreTarget}");
+            SetText(scoreText, $"{score}/{_scoreService.CurrentScoreTarget}");
 
         private void OnScoreTargetChanged(int scoreTarget) =>
-            SetText(scoreText, $"{_scoreManager.CurrentScore}/{scoreTarget}");
+            SetText(scoreText, $"{_scoreService.CurrentScore}/{scoreTarget}");
     
         private void OnCollisionsNumberChanged(int collisionsNumber) =>
             SetText(collisionsText, collisionsNumber.ToString());

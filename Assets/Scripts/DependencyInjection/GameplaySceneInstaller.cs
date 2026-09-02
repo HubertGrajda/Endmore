@@ -7,6 +7,12 @@ namespace Scripts
     {
         public void InstallBindings(ContainerBuilder builder)
         {
+            var gameplayMonoServices = GetComponentsInChildren<MonoService>();
+            
+            foreach (var monoService in gameplayMonoServices)
+            {
+                monoService.InstallBindings(builder);
+            }
         }
     }
 }

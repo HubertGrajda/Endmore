@@ -1,4 +1,5 @@
 ﻿using System;
+using Reflex.Attributes;
 using Scripts.Gameplay;
 using UnityEngine;
 using UnityEngine.Events;
@@ -14,8 +15,8 @@ namespace Scripts.Player
         public event Action OnDeath;
         public event Action<int> OnHealthChanged;
         
-        private GameplayManager _gameplayManager;
-        private ScoreManager _scoreManager;
+        [Inject] private IGameplayService _gameplayManager;
+        [Inject] private IScoreService _scoreService;
 
         private bool _isDead;
         private bool _initialized;
@@ -25,17 +26,25 @@ namespace Scripts.Player
         
         private void Start()
         {
-            _gameplayManager = GameplayManager.Instance;
-            _scoreManager = ScoreManager.Instance;
-            _scoreManager.OnScoreTargetAchieved += OnScoreTargetAchieved;
             SetHealth(MaxHealth);
+            AddListeners();
         }
 
         private void OnDestroy()
         {
-            _scoreManager.OnScoreTargetAchieved -= OnScoreTargetAchieved;
+            RemoveListeners();
         }
         
+        private void AddListeners()
+        {
+            _scoreService.OnScoreTargetAchieved += OnScoreTargetAchieved;
+        }
+
+        private void RemoveListeners()
+        {
+            _scoreService.OnScoreTargetAchieved -= OnScoreTargetAchieved;
+        }
+
         private void OnScoreTargetAchieved(int obj)
         {
             SetHealth(CurrentHealth+1);
@@ -75,6 +84,7 @@ namespace Scripts.Player
         
             _isDead = true;
             OnDeath?.Invoke();
+            _gameplayManager.FinishAndRestart();
         }
     }
 }

@@ -1,3 +1,4 @@
+using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,10 +8,18 @@ namespace Scripts.Gameplay
     {
         [SerializeField] private UnityEvent onCollected;
 
+        [Inject] private IScoreService _scoreService;
+
+        public override void OnSpawn()
+        {
+            base.OnSpawn();
+            _scoreService.IncreaseTotalPointsBy(Config.CoinValue);
+        }
+
         private void Collect()
         {
             Clear();
-            ScoreManager.Instance.AddScore(Config.CoinValue);
+            _scoreService.AddScore(Config.CoinValue);
             onCollected?.Invoke();
         }
 

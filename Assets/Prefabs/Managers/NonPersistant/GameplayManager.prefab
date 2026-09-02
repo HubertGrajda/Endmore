@@ -4143,6 +4143,7 @@ MonoBehaviour:
   <GameplayTimer>k__BackingField: {fileID: 5576934298114566611}
   levelGenerator: {fileID: 2998694427210039927}
   restartDelayAfterDeath: 1
+  pointsPercentageToPassTheLevel: 0.75
 --- !u!1 &8879403262746062094
 GameObject:
   m_ObjectHideFlags: 0

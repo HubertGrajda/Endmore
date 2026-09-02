@@ -1,46 +1,36 @@
 using System;
 using Reflex.Attributes;
-using Scripts.Player;
 using UnityEngine;
 
 namespace Scripts.Gameplay
 {
-    public class GameplayManager : Singleton<GameplayManager>
+    public class GameplayService : MonoService<IGameplayService>, IGameplayService
     {
-        [field: SerializeField] public Timer GameplayTimer { get; private set; }
-        
-        [SerializeField] private LevelGenerator levelGenerator;
-        
-        [SerializeField] private float restartDelayAfterDeath = 1f;
-        
         public event Action OnLevelClear;
         public event Action<int> OnLevelStarted;
         public event Action<int> OnCollisionsNumberChanged;
         
-        public int CollisionsNumber { get; private set; }
-        public int CurrentLevel { get; private set; }
+        [field: SerializeField] public Timer GameplayTimer { get; private set; }
+        [SerializeField] private LevelGenerator levelGenerator;
+        [SerializeField] private float restartDelayAfterDeath = 1f;
+        [SerializeField, Range(0f, 1f)] private float pointsPercentageToPassTheLevel = 1;
         
-        private ScoreManager _scoreManager;
-        
+        [Inject] private IScoreService _scoreService;
         [Inject] private IGameService _gameService;
         [Inject] private IScenesService _scenesService;
-        
-        private PlayerController _playerController;
-        private PlayerHealthSystem _playerHealthSystem;
         
         private bool _gameplayStarted;
         private bool _gameplayEnded;
         
         private const int INITIAL_LEVEL_NUMBER = 1;
         
+        public int CollisionsNumber { get; private set; }
+        public int CurrentLevel { get; private set; }
+        
         public bool IsDuringGameplay => _gameplayStarted && !_gameplayEnded;
         
         private void Start()
         {
-            _scoreManager = ScoreManager.Instance;
-            _playerController = PlayerController.Instance;
-            _playerHealthSystem = _playerController.PlayerHealthSystem;
-            
             AddListeners();
             StartGameplay();
         }
@@ -59,6 +49,7 @@ namespace Scripts.Gameplay
             
             CurrentLevel = levelNumber;
             levelGenerator.GenerateLevel(CurrentLevel);
+            _scoreService.SetScoreTarget(pointsPercentageToPassTheLevel); 
             
             OnLevelStarted?.Invoke(CurrentLevel);
         }
@@ -75,17 +66,15 @@ namespace Scripts.Gameplay
         
         private void AddListeners()
         {
-            _scoreManager.OnScoreTargetAchieved += OnScoreTargetAchieved;
-            _playerHealthSystem.OnDeath += OnPlayerDeath;
+            _scoreService.OnScoreTargetAchieved += OnScoreTargetAchieved;
         }
 
         private void RemoveListeners()
         {
-            _scoreManager.OnScoreTargetAchieved -= OnScoreTargetAchieved;
-            _playerHealthSystem.OnDeath -= OnPlayerDeath;
+            _scoreService.OnScoreTargetAchieved -= OnScoreTargetAchieved;
         }
         
-        private void OnPlayerDeath()
+        public void FinishAndRestart()
         {
             EndGameplay();
             Invoke(nameof(RestartGameplay), restartDelayAfterDeath);
@@ -133,7 +122,7 @@ namespace Scripts.Gameplay
 
         private void ClearLevel()
         {
-            _scoreManager.ResetScore();
+            _scoreService.ResetScore();
             levelGenerator.ClearLevel();
             OnLevelClear?.Invoke();
         }

@@ -50,6 +50,7 @@ namespace Scripts
             builder.RegisterType(typeof(SaveService),  new[] { typeof(ISaveService) }, Lifetime.Singleton, Resolution.Eager);
             builder.RegisterType(typeof(PauseService),  new[] { typeof(IPauseService) }, Lifetime.Singleton, Resolution.Lazy);
             builder.RegisterType(typeof(TimeService),  new[] { typeof(ITimeService) }, Lifetime.Singleton, Resolution.Eager);
+            builder.RegisterType(typeof(ScoreService),  new[] { typeof(IScoreService) }, Lifetime.Singleton, Resolution.Eager);
         }
     }
 }

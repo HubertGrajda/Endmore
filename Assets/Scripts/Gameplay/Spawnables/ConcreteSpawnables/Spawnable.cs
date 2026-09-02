@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.Serialization;
+﻿using Reflex.Attributes;
+using UnityEngine;
 
 namespace Scripts.Gameplay
 {
@@ -7,7 +7,7 @@ namespace Scripts.Gameplay
     {
         [field: SerializeField] public SpriteRenderer SpriteRenderer { get; private set; }
 
-        protected GameplayManager GameplayManager { get; private set; }
+        [Inject] protected IGameplayService GameplayService { get; private set; }
 
         public virtual void Initialize(SpawnableConfig config)
         {
@@ -18,18 +18,16 @@ namespace Scripts.Gameplay
                 SpriteRenderer.sprite = config.Sprite;
                 SpriteRenderer.color = config.Color;
             }
-
-            GameplayManager = GameplayManager.Instance;
         }
 
         public virtual void OnSpawn()
         {
-            GameplayManager.OnLevelClear += Clear;
+            GameplayService.OnLevelClear += Clear;
         }
         
         public virtual void OnDespawn()
         {
-            GameplayManager.OnLevelClear -= Clear;
+            GameplayService.OnLevelClear -= Clear;
         }
         
         public abstract void Clear();
