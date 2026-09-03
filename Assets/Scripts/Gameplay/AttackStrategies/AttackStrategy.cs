@@ -4,6 +4,6 @@ namespace Scripts.Gameplay
 {
     public abstract class AttackStrategy : ScriptableObject
     {
-        public abstract void ExecuteAttack(Enemy enemy);
+        public abstract void ExecuteAttack(Enemy enemy, GameObject target);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Reflex.Attributes;
 using Scripts.Player;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace Scripts.UI
         [SerializeField] private HealthPointVisualizer healthPointPrefab;
         [SerializeField] private Transform healthPointsContainer;
 
-        private PlayerHealthSystem _playerHealthSystem;
+        [Inject] private PlayerHealthSystem _playerHealthSystem;
         
         private readonly List<HealthPointVisualizer> _healthPoints = new();
 
@@ -48,8 +49,6 @@ namespace Scripts.UI
 
         private void Initialize()
         {
-            _playerHealthSystem = PlayerController.Instance.PlayerHealthSystem;
-            
             if (!_playerHealthSystem) return;
             
             InitializeHealthPoints();

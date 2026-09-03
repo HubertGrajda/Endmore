@@ -37,6 +37,10 @@ namespace Scripts.Gameplay
     {
         public TConfigType Config { get; private set; }
 
+        [Inject] private SpawnableFactory _factory;
+        
+        protected SpawnableFactory Factory => _factory;
+        
         public override void Initialize(SpawnableConfig config)
         {
             base.Initialize(config);
@@ -45,7 +49,7 @@ namespace Scripts.Gameplay
 
         public override void Clear()
         {
-            SpawnableFactory.ReturnToPool(this);
+            _factory.ReturnToPool(this);
         }
     }
 }

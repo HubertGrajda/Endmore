@@ -8,7 +8,7 @@ namespace Scripts.Gameplay
         [SerializeField] private ProjectileConfig projectileConfig;
         [SerializeField] private DirectionsSet directionsSet;
 
-        public override void ExecuteAttack(Enemy enemy)
+        public override void ExecuteAttack(Enemy enemy, GameObject target)
         {
             if (directionsSet == null) return;
                 
@@ -16,7 +16,7 @@ namespace Scripts.Gameplay
 
             foreach (var direction in directionsToShoot)
             {
-                var projectile = (Projectile)SpawnableFactory.SpawnFromPool(projectileConfig);
+                var projectile = enemy.SpawnProjectile(projectileConfig);
                     
                 projectile.Launch(direction, enemy);
             }

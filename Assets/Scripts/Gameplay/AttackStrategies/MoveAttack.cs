@@ -9,7 +9,7 @@ namespace Scripts.Gameplay
         [SerializeField] private DirectionsSet directionsSet;
         [SerializeField] private int range;
         
-        public override void ExecuteAttack(Enemy enemy)
+        public override void ExecuteAttack(Enemy enemy, GameObject target)
         {
             enemy.StartCoroutine(AttackCoroutine(enemy));
         }

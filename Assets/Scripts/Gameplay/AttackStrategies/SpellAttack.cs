@@ -11,20 +11,20 @@ namespace Scripts.Gameplay
         [SerializeField] private DirectionsSet directionsSet;
         [SerializeField] private float maxDistance;
         
-        public override void ExecuteAttack(Enemy enemy)
+        public override void ExecuteAttack(Enemy enemy, GameObject target)
         {
-            enemy.StartCoroutine(AttackCoroutine(enemy));
+            enemy.StartCoroutine(AttackCoroutine(enemy, target));
         }
 
-        private IEnumerator AttackCoroutine(Enemy enemy)
+        private IEnumerator AttackCoroutine(Enemy enemy, GameObject target)
         {
-            var spell = (Spell)SpawnableFactory.SpawnFromPool(spellConfig);
-            var playerPosition = PlayerController.Instance.transform.position;
+            var spell = enemy.SpawnSpell(spellConfig);
+            var targetPosition = target.transform.position;
             var enemyPosition = enemy.transform.position;
 
-            spell.transform.position = Vector3.Distance(enemyPosition, playerPosition) > maxDistance 
+            spell.transform.position = Vector3.Distance(enemyPosition, targetPosition) > maxDistance 
                 ? enemyPosition + (Vector3)directionsSet.GetRandomVector() 
-                : playerPosition;
+                : targetPosition;
             
             spell.CastSpell();
             yield return new WaitForSeconds(spellConfig.CastingTime);

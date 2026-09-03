@@ -17,6 +17,12 @@ namespace Scripts
                 Debug.LogError($"[{name}] of type {GetType().Name} is not {typeof(TService).Name}");
                 return;
             }
+
+            if (typeof(TService) == service.GetType())
+            {
+                builder.RegisterValue(service);
+                return;
+            }
             
             builder.RegisterValue(service, new[] { typeof(TService) });
         }

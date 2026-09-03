@@ -4,17 +4,25 @@ using UnityEngine.Pool;
 
 namespace Scripts.Gameplay
 {
-    public class SpawnableFactory : Singleton<SpawnableFactory>
+    public class SpawnableFactory : MonoService<SpawnableFactory>
     {
         private readonly Dictionary<SpawnableConfig, IObjectPool<Spawnable>> _pools = new();
 
-        public static Spawnable SpawnFromPool(SpawnableConfig config) => Instance.GetOrCreatePool(config).Get();
-
-        public static void ReturnToPool<TConfig>(Spawnable<TConfig> spawnable) where TConfig : SpawnableConfig
+        public Spawnable SpawnFromPool(SpawnableConfig config)
+        {
+            return GetOrCreatePool(config).Get();
+        }
+        
+        public TSpawnable SpawnFromPool<TSpawnable>(SpawnableConfig<TSpawnable> config) where TSpawnable : Spawnable
+        {
+            return (TSpawnable) GetOrCreatePool(config).Get();
+        }
+        
+        public void ReturnToPool<TConfig>(Spawnable<TConfig> spawnable) where TConfig : SpawnableConfig
         {
             if (!spawnable.gameObject.activeInHierarchy) return;
             
-            Instance.GetOrCreatePool(spawnable.Config).Release(spawnable);
+            GetOrCreatePool(spawnable.Config).Release(spawnable);
         }
         
         private IObjectPool<Spawnable> GetOrCreatePool(SpawnableConfig config)

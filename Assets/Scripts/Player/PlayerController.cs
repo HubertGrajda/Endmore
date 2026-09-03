@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Reflex.Core;
+using UnityEngine;
 
 namespace Scripts.Player
 {
-    public class PlayerController : Singleton<PlayerController>
+    public class PlayerController : MonoService<PlayerController>
     {
         private PlayerLocomotion _playerLocomotion;
         public PlayerLocomotion PlayerLocomotion => _playerLocomotion;
@@ -13,10 +14,26 @@ namespace Scripts.Player
         private PlayerInventory _playerInventory;
         public PlayerInventory PlayerInventory => _playerInventory;
 
-        protected override void Awake()
+        public override void InstallBindings(ContainerBuilder builder)
         {
-            base.Awake();
             AssignComponents();
+
+            base.InstallBindings(builder);
+
+            if (_playerLocomotion)
+            {
+                builder.RegisterValue(_playerLocomotion);
+            }
+
+            if (_playerHealthSystem)
+            {
+                builder.RegisterValue(_playerHealthSystem);
+            }
+
+            if (_playerInventory)
+            {
+                builder.RegisterValue(_playerInventory);
+            }
         }
 
         private void AssignComponents()

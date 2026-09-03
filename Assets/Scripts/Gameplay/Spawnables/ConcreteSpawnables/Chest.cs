@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Reflex.Attributes;
 using Scripts.Player;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,16 +11,11 @@ namespace Scripts.Gameplay
         [SerializeField] private List<Transform> contentSlots;
         [SerializeField] private UnityEvent onChestOpened;
         
+        [Inject] private PlayerInventory _playerInventory;
+        
         private bool _isOpened;
-        private PlayerInventory _playerInventory;
         
         public bool CanInteract => !_isOpened && (Config.KeyItem == null || _playerInventory.Has(Config.KeyItem));
-
-        public override void Initialize(SpawnableConfig config)
-        {
-            base.Initialize(config);
-            _playerInventory = PlayerController.Instance.PlayerInventory;
-        }
 
         public void Interact(GameObject interactor)
         {
@@ -49,7 +45,7 @@ namespace Scripts.Gameplay
                 
                 var slot = contentSlots[i];
                 
-                var spawnableInstance = SpawnableFactory.SpawnFromPool(spawnable);
+                var spawnableInstance = Factory.SpawnFromPool(spawnable);
                 spawnableInstance.transform.position = slot.position;
             }
             

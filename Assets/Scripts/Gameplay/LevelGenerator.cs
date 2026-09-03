@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Reflex.Attributes;
 using Scripts.Player;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -15,6 +16,9 @@ namespace Scripts.Gameplay
         
         [SerializeField] private List<TileBasedSpawnableCollection> spawnableCollections;
         
+        [Inject] private PlayerController _playerController;
+        [Inject] private SpawnableFactory _factory;
+        
         private int _currentSeed;
         
         private HashSet<Vector3Int> _positionsWithSpawnAllowed = new();
@@ -23,6 +27,7 @@ namespace Scripts.Gameplay
         
         private const int PLAYER_SAFE_RANGE = 1;
         private const int MAX_SPAWN_ATTEMPTS = 10;
+        
         
         private void Awake()
         {
@@ -77,7 +82,7 @@ namespace Scripts.Gameplay
 
         private void ReservePlayerTiles()
         {
-            var tilePos = spawnArea.WorldToCell(PlayerController.Instance.transform.position);
+            var tilePos = spawnArea.WorldToCell(_playerController.transform.position);
 
             for (var i = tilePos.x - PLAYER_SAFE_RANGE; i <= tilePos.x + PLAYER_SAFE_RANGE; i++)
             {
@@ -122,7 +127,7 @@ namespace Scripts.Gameplay
         private void Spawn(TileBasedSpawnableConfig spawnableConfig, Vector3Int tilePosition)
         {
             var worldPosition = spawnArea.GetCellCenterWorld(tilePosition);
-            var spawnableInstance = SpawnableFactory.SpawnFromPool(spawnableConfig);
+            var spawnableInstance = _factory.SpawnFromPool(spawnableConfig);
             spawnableInstance.transform.position = worldPosition;
             
             ReservePositionsForSpawnedSpawnable(tilePosition, spawnableConfig);

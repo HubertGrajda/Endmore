@@ -1,4 +1,5 @@
-﻿using Scripts.Gameplay;
+﻿using Reflex.Attributes;
+using Scripts.Gameplay;
 using Scripts.Player;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,7 +14,8 @@ namespace Scripts.UI
         [SerializeField] private UnityEvent onActivation;
         [SerializeField] private UnityEvent onDeactivation;
 
-        private PlayerInventory _playerInventory;
+        [Inject] private PlayerInventory _playerInventory;
+        
         private bool _isActive;
         
         private void Activate()
@@ -34,9 +36,9 @@ namespace Scripts.UI
         
         private void Start()
         {
-            _playerInventory = PlayerController.Instance.PlayerInventory;
             AddListeners();
         }
+        
         private void OnDestroy()
         {
             RemoveListeners();

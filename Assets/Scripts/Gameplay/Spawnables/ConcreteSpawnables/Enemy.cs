@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using Reflex.Attributes;
+using Scripts.Player;
 using UnityEngine;
 
 namespace Scripts.Gameplay
@@ -7,12 +9,13 @@ namespace Scripts.Gameplay
     {
         [SerializeField] private Animator animator;
         
+        [Inject] private PlayerController _playerController;
+        
         private bool _isActive;
         
         private static readonly int LaunchAttackAnimation = Animator.StringToHash("Launch");
         
         public int DamageAmount => Config.ContactDamage;
-        
         public override void OnSpawn()
         {
             base.OnSpawn();
@@ -42,7 +45,7 @@ namespace Scripts.Gameplay
 
                 yield return AttackAnimationCoroutine();
                 
-                Config.AttackStrategy.ExecuteAttack(this);
+                Config.AttackStrategy.ExecuteAttack(this, _playerController.gameObject);
             }
         }
 
@@ -55,6 +58,16 @@ namespace Scripts.Gameplay
             yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
             yield return null;
             yield return new WaitWhile(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
+        }
+
+        public Projectile SpawnProjectile(ProjectileConfig projectileConfig)
+        {
+            return Factory.SpawnFromPool(projectileConfig);
+        }
+        
+        public Spell SpawnSpell(SpellConfig spellConfig)
+        {
+            return Factory.SpawnFromPool(spellConfig);
         }
     }
 }
